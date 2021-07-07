@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>天候選択画面</title>
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+
+	<h1>天候選択</h1>
+
+	<form action="/weather" method="post">
+
+	<p th:text="${message}" style="color: red"></p>
+	<p th:text="${message}" style="color: red"></p>
+
+	    <span class="label">天候選択</span>
+	    <select th:text="weatherCode" class="input">
+	        <option>雨</option>
+	        <option>小雨</option>
+            <option>大雨</option>
+        </select>
+
+		<input type="submit" value="検索" class="searchbutton">
+	</form>
+
+	<br><br>
+	<hr>
+	<h2>【登録情報】</h2>
+
+	<div class="infodiv">
+
+		<ul class="infoui">
+			<li>ふだん家を出る時間：</li>
+			<li>自宅から最寄り駅までの所要時間：</li>
+			<li>通勤経路：</li>
+			<li>駅から会社までの所要時間：</li>
+		</ul>
+	</div>
+
+	<div class="logout">
+	  	<a href="/">ログアウト</a>はこちら
+	</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+h1,form,h2,.logout{
+    /*コンテンツを中央寄せ*/
+    text-align: center;
+}
+
+.infodiv{
+    margin-top: 20px;
+    margin-left: auto;
+    padding-left: 400px;
+    margin-right: auto;
+    max-width: 720px;
+    float: center;
+}

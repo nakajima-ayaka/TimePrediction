@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,22 +23,22 @@ public class User {
 	private String email; //メールアドレス
 	private String password; //パスワード
 
-	@Column(name="leave_home_time")
-	private int leaveHomeTime; //いつも家を出る時間
+	@Column(name = "leave_home_time")
+	private LocalDateTime leaveHomeTime; //いつも家を出る時間
 
-	@Column(name="home_station_time")
+	@Column(name = "home_station_time")
 	private int homeStationTime; //自宅から最寄り駅までの所要時間(分)
 
-	@Column(name="commuter_code1")
+	@Column(name = "commuter_code1")
 	private int commuterCode1; //通勤経路１つめ
 
-	@Column(name="commuter_code2")
+	@Column(name = "commuter_code2")
 	private int commuterCode2; //通勤経路２つめ
 
-	@Column(name="commuter_code3")
+	@Column(name = "commuter_code3")
 	private int commuterCode3; //通勤経路３つめ
 
-	@Column(name="station_company_time")
+	@Column(name = "station_company_time")
 	private int stationCompanyTime; //駅から会社までの所要時間(分)
 
 	//コンストラクタ(引数なし)
@@ -47,16 +49,14 @@ public class User {
 	//コンストラクタ(全部入り)
 	public User(
 			int code, String email, String password, int leaveHomeTime,
-			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime
-			) {
+			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime) {
 
 	}
 
 	//登録の時はこのコンストラクタ(DBがシリアルだから)
 	public User(
 			String email, String password, int leaveHomeTime,
-			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime
-			) {
+			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime) {
 
 	}
 
@@ -85,11 +85,11 @@ public class User {
 		this.password = password;
 	}
 
-	public int getLeaveHomeTime() {
+	public LocalDateTime getLeaveHomeTime() {
 		return leaveHomeTime;
 	}
 
-	public void setLeaveHomeTime(int leaveHomeTime) {
+	public void setLeaveHomeTime(LocalDateTime leaveHomeTime) {
 		this.leaveHomeTime = leaveHomeTime;
 	}
 

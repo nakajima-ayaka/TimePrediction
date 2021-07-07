@@ -57,27 +57,27 @@ public class AccountController {
 
 		String pass = findEmail(email);
 
-			//パスワードが一致するか確認
-			if (pass == password) {
+		//パスワードが一致するか確認
+		if (pass.equals(password)) {
 
-				// セッションスコープにuser情報を格納する
-				session.setAttribute("user", userRepository.findAll());
+			// セッションスコープにuser情報を格納する
+			session.setAttribute("user", userRepository.findAll());
 
-				//天候選択へ遷移を指定
-				mv.setViewName("weather");
+			//天候選択へ遷移を指定
+			mv.setViewName("weather");
 
-				return mv;
+			return mv;
 
-			} else {
-				//不一致verのオブジェクトの生成
-				mv.addObject("message", "メールアドレスもしくはパスワードが間違っています");
+		} else {
+			//不一致verのオブジェクトの生成
+			mv.addObject("message", "メールアドレスもしくはパスワードが間違っています");
 
-				//ログインへ遷移を指定
-				mv.setViewName("login");
+			//ログインへ遷移を指定
+			mv.setViewName("login");
 
-				return mv;
-			}
+			return mv;
 		}
+	}
 
 	//メールアドレス検索
 	public String findEmail(String email) {

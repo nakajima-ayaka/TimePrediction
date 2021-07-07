@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新規登録画面</title>
+
+<link rel="stylesheet" href="/css/form.css">
+</head>
+<body>
+
+
+	<h1>新規登録</h1>
+
+	<p th:text="${message}" class="message"></p>
+
+	<form action="/signup" method="post">
+
+	    <div>
+	      <span class="label">メールアドレス</span>
+	      <input type="email" name="email" class="input"><br><br>
+	    </div>
+
+	    <div>
+	      <span class="label">パスワード</span>
+	      <input type="password" name="password" class="input"><br><br>
+	    </div>
+
+	    <div>
+	      <span class="label">ふだん家を出る時間</span>
+	      <input type="time" name="time" class="timeinput" value="07:30"><br><br>
+	    </div>
+
+	    <div>
+	      <span class="label">自宅から最寄り駅までの所要時間(分)</span>
+	      <input type="number" name="home_station_time" class="minuteinput" min=0 value=0><br><br>
+	    </div>
+
+	    <div>
+	      <span class="label">駅から会社までの所要時間(分)</span>
+	      <input type="number" name="station_company_time" class="minuteinput"min=0 value=0><br><br>
+	    </div>
+
+	    <div>
+	      <span class="label">通勤経路</span>
+	    <select name="commuter_code1" class="input">
+	        <option>-</option>
+	        <option>JR中央線</option>
+            <option>京王線</option>
+        </select>
+	      <span class="tilde">～</span>
+
+        <select name="commuter_code2" class="input">
+	        <option>-</option>
+	        <option>JR中央線</option>
+            <option>京王線</option>
+        </select>
+	      <span class="tilde">～</span>
+
+        <select name="commuter_code3" class="input">
+	        <option>-</option>
+	        <option>JR中央線</option>
+            <option>京王線</option>
+        </select> <br>
+	    </div>
+
+		<br>
+		<input type="submit" value="登録"  class="formbutton">
+
+	</form>
+
+
+</body>
+</html>
