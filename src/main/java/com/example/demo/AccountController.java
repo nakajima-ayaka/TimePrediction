@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ public class AccountController {
 	//UserRepositoryを使えるようにする
 	private UserRepository userRepository;
 
+	//ログインまたはログアウト→ログイン
 	@RequestMapping("/")
 	public String login() {
 
@@ -104,10 +106,41 @@ public class AccountController {
 		return password;
 	}
 
-	//		@RequestParam("leaveHomeTime") int leaveHomeTime,
-	//		@RequestParam("commuterCode1") int commuterCode1,
-	//		@RequestParam("commuterCode2") int commuterCode2,
-	//		@RequestParam("commuterCode3") int commuterCode3,
-	//		@RequestParam("stationCompanyTime") int stationCompanyTime,
+	//新規登録
+	@RequestMapping("/siguup")
+	public String siguup() {
+
+		//新規登録へ遷移
+		return "siguup";
+
+	}
+
+	//新規登録(入力済み)
+	@PostMapping("/siguup")
+	public ModelAndView siguup(
+			@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			@RequestParam("leaveHomeTime") LocalDateTime leaveHomeTime,
+			@RequestParam("commuterCode1") int commuterCode1,
+			@RequestParam("commuterCode2") int commuterCode2,
+			@RequestParam("commuterCode3") int commuterCode3,
+			@RequestParam("stationCompanyTime") int stationCompanyTime,
+			ModelAndView mv) {
+
+		//パラメータからオブジェクトを生成
+		User user = new User(
+				email, password, leaveHomeTime,commuterCode1,
+				commuterCode2, commuterCode3, stationCompanyTime
+				);
+
+		//usersテーブルへの登録
+		userRepository.saveAndFlush(user);
+
+		//ログインへ遷移を指定
+		mv.setViewName("login");
+
+		return mv;
+
+	}
 
 }

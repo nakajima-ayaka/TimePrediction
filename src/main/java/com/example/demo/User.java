@@ -48,14 +48,14 @@ public class User {
 
 	//コンストラクタ(全部入り)
 	public User(
-			int code, String email, String password, int leaveHomeTime,
+			int code, String email, String password, LocalDateTime leaveHomeTime,
 			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime) {
 
 	}
 
 	//登録の時はこのコンストラクタ(DBがシリアルだから)
 	public User(
-			String email, String password, int leaveHomeTime,
+			String email, String password, LocalDateTime leaveHomeTime,
 			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime) {
 
 	}
