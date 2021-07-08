@@ -28,11 +28,15 @@ public class AccountController {
 	//WeatherRepositoryを使えるようにする
 	private WeatherRepository weatherRepository;
 
+	@Autowired
+	//RailwayRepositoryを使えるようにする
+	private RailwayRepository railwayRepository;
+
 	//ログインまたはログアウト→ログイン
 	@RequestMapping(value = { "/", "/login", "/logout", "/weather" })
 	public String login() {
 
-		// セッション情報はクリアする
+		//セッション情報はクリアする
 		session.invalidate();
 
 		//ログインへ遷移
@@ -66,6 +70,19 @@ public class AccountController {
 
 			//会員情報をセッションスコープに設定
 			session.setAttribute("user", user);
+
+			int code1 = user.getCommuterCode1();
+			int code2 = user.getCommuterCode2();
+			int code3 = user.getCommuterCode3();
+
+			String railwayName1 = findRailway(code1);
+			String railwayName2 = findRailway(code2);
+			String railwayName3 = findRailway(code3);
+
+			//登録路線名をセッションスコープに設定
+			session.setAttribute("railwayName1", railwayName1);
+			session.setAttribute("railwayName2", railwayName2);
+			session.setAttribute("railwayName3", railwayName3);
 
 			//天候リストを表示
 			mv.addObject("weathers", weatherRepository.findAll());
@@ -101,6 +118,26 @@ public class AccountController {
 		//recordが無い場合はnullを返す
 		return null;
 
+	}
+
+	//登録路線名の検索
+	public String findRailway(int code) {
+
+		//Railway宣言
+		Railway railway;
+		//通勤経路での検索結果を取得
+		Optional<Railway> record = railwayRepository.findById(code);
+
+		//recordの有無の判定
+		if (!record.isEmpty()) {
+			railway = record.get();
+			return railway.getName();
+
+		} else {
+
+			//recordが無い場合はnullを返す
+			return null;
+		}
 	}
 
 	//新規登録
