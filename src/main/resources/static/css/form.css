@@ -1,73 +1,100 @@
 @charset "utf-8";
 
-body{
-    /*コンテンツを中央寄せ*/
-    text-align: center;
+body {
+	/*文字を中央寄せ*/
+	text-align: center;
 }
 
-form{
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 720px;
+form {
+	/* 	margin領域を設定 */
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	/* 	要素の最大幅を設定 */
+	max-width: 720px;
 }
 
-.label{
-    float: left;
-    text-align: right;
-    margin-left: auto;
-    width:300px;
-    padding-right: 10px;
-    padding-left: auto;
-  }
-
-
-.timeinput{
-    float: left;
-    text-align: right;
-    margin-left: auto;
-    width:70px;
-    padding-right: 10px;
-    padding-left: auto;
-  }
-
-.minuteinput{
-    float: left;
-    text-align: right;
-    margin-left: auto;
-    width:40px;
-    padding-right: 10px;
-    padding-left: auto;
-  }
-
-.tilde{
-    float: left;
-    text-align: center;
-    margin-left: auto;
-    padding-left: auto;
-    width: 30px;
-  }
-
-
-.input{
-    margin-left: auto;
-    margin-right: auto;
-    float: left;
-    width:150px;
+.label {
+	/*要素を左寄せ*/
+	float: left;
+	/*文字を右寄せ*/
+	text-align: right;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	/* 	要素の幅を設定 */
+	width: 300px;
+	/* 	padding領域を設定 */
+	padding-right: 10px;
+	padding-left: auto;
 }
 
-.formbutton{
-    width: auto;
-    height: auto;
+.timeinput {
+	/*要素を左寄せ*/
+	float: left;
+	/*文字を右寄せ*/
+	text-align: right;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	/* 	要素の幅を設定 */
+	width: 70px;
+	/* 	padding領域を設定 */
+	padding-right: 10px;
+	padding-left: auto;
 }
 
-select.input{
-    margin-left: auto;
-    margin-right: auto;
-    width: 80px;
+.minuteinput {
+	/*要素を左寄せ*/
+	float: left;
+	/*文字を右寄せ*/
+	text-align: right;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	/* 	要素の幅を設定 */
+	width: 40px;
+	/* 	padding領域を設定 */
+	padding-right: 10px;
+	padding-left: auto;
 }
 
-.message{
+.tilde {
+	/*要素を左寄せ*/
+	float: left;
+	/*文字を中央寄せ*/
+	text-align: center;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	/* 	padding領域を設定 */
+	padding-left: auto;
+	/* 	要素の幅を設定 */
+	width: 30px;
+}
+
+.input {
+	/*要素を左寄せ*/
+	float: left;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	/* 	要素の幅を設定 */
+	width: 150px;
+}
+
+select.input {
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	/* 	要素の幅を設定 */
+	width: 80px;
+}
+
+.message {
 	/*メッセージ表示を赤字に*/
-	color:red;
+	color: red;
+}
+
+/* 数値入力の矢印ボタン(スピンボタン)を削除 */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
 }

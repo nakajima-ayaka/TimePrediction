@@ -12,14 +12,14 @@
 
 	<form action="/weather" method="post">
 
-	<p th:text="${message}" style="color: red"></p>
-	<p th:text="${message}" style="color: red"></p>
+	<p th:text="${message}" class="message"></p>
+	<p th:text="${message}" class="message"></p>
 
 	    <span class="label">天候選択</span>
-	    <select th:text="weatherCode" class="input">
-	        <option>雨</option>
-	        <option>小雨</option>
-            <option>大雨</option>
+
+	    <select name="weatherCode" class="input">
+	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}">
+			</option>
         </select>
 
 		<input type="submit" value="検索" class="searchbutton">
@@ -32,10 +32,14 @@
 	<div class="infodiv">
 
 		<ul class="infoui">
-			<li>ふだん家を出る時間：</li>
-			<li>自宅から最寄り駅までの所要時間：</li>
-			<li>通勤経路：</li>
-			<li>駅から会社までの所要時間：</li>
+			<li>ふだん家を出る時間：<span th:text="${session.user.leaveHomeTime}"></span></li>
+			<li>自宅から最寄り駅までの所要時間：<span th:text="${session.user.homeStationTime+'分'}"></span></li>
+			<li>通勤経路：
+			<span th:text="${session.user.commuterCode1}"></span>
+			<span th:if="${session.user.commuterCode2 != 1}" th:text="${'～ '+ session.user.commuterCode2}"></span>
+			<span th:if="${session.user.commuterCode3 != 1}" th:text="${'～ '+ session.user.commuterCode3}"></span>
+			</li>
+			<li>駅から会社までの所要時間：<span th:text="${session.user.stationCompanyTime+'分'}"></span></li>
 		</ul>
 	</div>
 

@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -24,8 +24,12 @@ public class AccountController {
 	//UserRepositoryを使えるようにする
 	private UserRepository userRepository;
 
+	@Autowired
+	//WeatherRepositoryを使えるようにする
+	private WeatherRepository weatherRepository;
+
 	//ログインまたはログアウト→ログイン
-	@RequestMapping("/")
+	@RequestMapping(value = { "/", "/login", "/logout", "/weather" })
 	public String login() {
 
 		// セッション情報はクリアする
@@ -54,84 +58,94 @@ public class AccountController {
 			return mv;
 		}
 
-		//メールアドレス検索結果からパスワードを取得
-		findEmail(email);
+		//メールアドレス検索結果からuserを取得
+		User user = findEmail(email);
 
-		String pass = findEmail(email);
+		//user情報が取得できているか及びパスワードが一致するか確認
+		if (user != null && password.equals(user.getPassword())) {
 
-		//パスワードが一致するか確認
-		if (pass.equals(password)) {
+			//会員情報をセッションスコープに設定
+			session.setAttribute("user", user);
 
-			// セッションスコープにuser情報を格納する
-			session.setAttribute("user", userRepository.findAll());
+			//天候リストを表示
+			mv.addObject("weathers", weatherRepository.findAll());
 
 			//天候選択へ遷移を指定
 			mv.setViewName("weather");
 
 			return mv;
 
-		} else {
-			//不一致verのオブジェクトの生成
-			mv.addObject("message", "メールアドレスもしくはパスワードが間違っています");
-
-			//ログインへ遷移を指定
-			mv.setViewName("login");
-
-			return mv;
 		}
+
+		//不一致verのオブジェクトの生成
+		mv.addObject("message", "メールアドレスもしくはパスワードが間違っています");
+
+		//ログインへ遷移を指定
+		mv.setViewName("login");
+
+		return mv;
+
 	}
 
 	//メールアドレス検索
-	public String findEmail(String email) {
-
-		//Userの宣言
-		User user;
+	public User findEmail(String email) {
 
 		//メールアドレスでの検索結果を取得
 		Optional<User> record = userRepository.findByEmail(email);
 
 		//recordの有無の判定
 		if (!record.isEmpty()) {
-			user = record.get();
-		} else {
-			return null;
+			return record.get();
 		}
 
-		//情報取得
-		String password = user.getPassword();
+		//recordが無い場合はnullを返す
+		return null;
 
-		//顧客情報をセッションスコープに設定
-		//session.setAttribute("customerInfo", user);
-
-		return password;
 	}
 
 	//新規登録
-	@RequestMapping("/siguup")
-	public String siguup() {
+	@RequestMapping("/signup")
+	public ModelAndView signup(ModelAndView mv) {
 
 		//新規登録へ遷移
-		return "siguup";
+		mv.setViewName("signup");
+
+		return mv;
 
 	}
 
 	//新規登録(入力済み)
-	@PostMapping("/siguup")
-	public ModelAndView siguup(
+	@PostMapping("/signup")
+	public ModelAndView signup(
 			@RequestParam("email") String email,
 			@RequestParam("password") String password,
-			@RequestParam("leaveHomeTime") LocalDateTime leaveHomeTime,
-			@RequestParam("commuterCode1") int commuterCode1,
-			@RequestParam("commuterCode2") int commuterCode2,
-			@RequestParam("commuterCode3") int commuterCode3,
-			@RequestParam("stationCompanyTime") int stationCompanyTime,
+			@RequestParam("leaveHomeTime") LocalTime leaveHomeTime,
+			@RequestParam(value = "homeStationTime", defaultValue = "0") int homeStationTime,
+			@RequestParam(value = "commuterCode1", defaultValue = "1") int commuterCode1,
+			@RequestParam(value = "commuterCode2", defaultValue = "1") int commuterCode2,
+			@RequestParam(value = "commuterCode3", defaultValue = "1") int commuterCode3,
+			@RequestParam(value = "stationCompanyTime", defaultValue = "0") int stationCompanyTime,
 			ModelAndView mv) {
+
+		//メールアドレス、パスワードがある場合エラーとする
+		//使用路線の1つ目が選択されていない場合もエラーとする
+		if (email.isEmpty() || email.length() == 0 ||
+				password.isEmpty() || password.length() == 0 ||
+				commuterCode1 == 1
+
+		) {
+
+			//表示のオブジェクト
+			mv.addObject("message", "未記入箇所があります");
+
+			//登録へ遷移を指定
+			return signup(mv);
+		}
 
 		//パラメータからオブジェクトを生成
 		User user = new User(
-				email, password, leaveHomeTime,commuterCode1,
-				commuterCode2, commuterCode3, stationCompanyTime
-				);
+				email, password, leaveHomeTime, homeStationTime, commuterCode1,
+				commuterCode2, commuterCode3, stationCompanyTime);
 
 		//usersテーブルへの登録
 		userRepository.saveAndFlush(user);
