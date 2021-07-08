@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -95,11 +96,28 @@ public class Delay {
 		this.date = date;
 	}
 
+	//遅延平均時間取得処理
+	public int average(List<Delay> list) {
 
+		//変数を宣言
+		int total = 0;
 
+		//遅延時間の合計を算出
+		for (Delay delay : list) {
+			//totalに該当の遅延時間を合算
+			total += delay.delayTime;
+		}
 
+		//平均時間(分)を返す
+		return total / list.size();
+	}
 
+	//遅延最大時間取得処理
+	public int max(int delayTime1, int delayTime2, int delayTime3) {
 
+		//最大値を返す
+		return Math.max(delayTime1, Math.max(delayTime2, delayTime3));
 
+	}
 
 }
