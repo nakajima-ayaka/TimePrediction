@@ -9,17 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 //このクラスがJPAのエンティティ・クラスである意味
 @Entity
 //エンティティに対応するテーブル名を指定※クラス名がテーブル名と同じでない時に使用
 @Table(name = "railway")
 public class Railway {
-
-	@Autowired
-	//RailwayRepositoryを使えるようにする
-	private RailwayRepository railwayRepository;
 
 	//フィールド
 	@Id //主キーの指定
@@ -56,13 +50,7 @@ public class Railway {
 	}
 
 	//遅延頻度取得処理
-	public String DelayFrequency(int code) {
-
-		//Railway宣言
-		Railway railway = null;
-
-		//鉄道番号での検索結果を取得
-		Optional<Railway> record = railwayRepository.findById(code);
+	public String DelayFrequency(Optional<Railway> record) {
 
 		//recordの有無の判定
 		if (record.isEmpty()) {
@@ -70,7 +58,7 @@ public class Railway {
 		}
 
 		//一件のrailwayの情報取得
-		railway = record.get();
+		Railway railway = record.get();
 
 		//遅延頻度の取得
 		int delay = railway.getDelayFrequency();
