@@ -10,7 +10,7 @@
 
 	<h1>天候選択</h1>
 
-	<form action="/weather" method="post">
+	<form action="/weather/result" method="post">
 
 	<p th:text="${message}" class="message"></p>
 	<p th:text="${message}" class="message"></p>
@@ -18,11 +18,11 @@
 	    <span class="label">天候選択</span>
 
 	    <select name="weatherCode" class="input">
-	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}">
+	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}" >
 			</option>
         </select>
 
-		<input type="submit" value="検索" class="searchbutton">
+		<input type="submit" value="実行" class="searchbutton">
 	</form>
 
 	<br><br>
