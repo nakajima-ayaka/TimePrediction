@@ -1,10 +1,9 @@
 package com.example.demo;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Optional;
-=======
->>>>>>> branch 'master' of https://github.com/nakajima-ayaka/TimePrediction
 
 import javax.servlet.http.HttpSession;
 
@@ -76,9 +75,19 @@ public class CalcController {
 		int max = delay.max(FirstAverage, SecondAverage, ThirdAverage);
 
 		//5.通勤経路1,2,3を、「railwayテーブルから遅延頻度を検索して、結果の文面を決定するメソッド」へ引数として渡し、その結果を変数に格納する。
-		Optional<Railway> record = railwayRepository.findById(user.getCommuterCode1());
-		String test = railway.DelayFrequency(record);
+		Optional<Railway> record1 = railwayRepository.findById(user.getCommuterCode1());
+		Optional<Railway> record2 = railwayRepository.findById(user.getCommuterCode2());
+		Optional<Railway> record3 = railwayRepository.findById(user.getCommuterCode3());
 
+		List<String> railwayName = new ArrayList<String>();
+		//リストへの追加
+		railwayName.add(railway.DelayFrequency(record1));
+		railwayName.add(railway.DelayFrequency(record2));
+		railwayName.add(railway.DelayFrequency(record3));
+
+		String message = Message(railwayName);
+
+		mv.addObject("message", message);
 
 		//6.天候コード、user情報のhome_station_time及びstation_company_timeを、「徒歩遅延時間を算出処理するメソッド」へ引数として渡し、その結果を変数に格納する。
 
@@ -86,5 +95,25 @@ public class CalcController {
 
 		//8./weatherを呼び出す
 		return weather(mv);
+	}
+
+	//遅延頻度の文章処理
+	public String Message(List<String> railwayName) {
+
+		String message = null;
+
+		//リストのあるnullの削除
+		railwayName.removeAll(Collections.singleton(null));
+
+		//リストが0(すべてnull)の場合の処理
+		if (railwayName.size() == 0) {
+			message = "遅延の可能性が高い路線はありません。";
+			return message;
+			}
+
+		message = String.join("と", railwayName);
+
+        return message + "が遅延の可能性が高いため早く家を出ましょう！";
+
 	}
 }
