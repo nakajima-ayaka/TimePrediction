@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +33,10 @@ public class CalcController {
 	@Autowired
 	//RailwayRepositoryを使えるようにする
 	private RailwayRepository railwayRepository;
+
+	@Autowired
+	//UserRepositoryを使えるようにする
+	private UserRepository userRepository;
 
 	//天候選択画面へ遷移
 	@PostMapping("/weather")
@@ -86,13 +91,14 @@ public class CalcController {
 		railwayName.add(railway.DelayFrequency(record3));
 
 		String message = Message(railwayName);
-
 		mv.addObject("message", message);
 
 		//6.天候コード、user情報のhome_station_time及びstation_company_timeを、「徒歩遅延時間を算出処理するメソッド」へ引数として渡し、その結果を変数に格納する。
 		int delayWalkTime = railway.DelayWalk(user.getHomeStationTime(), user.getStationCompanyTime(), weatherCode);
 
 		//7.4,6で取得した変数を、「登録した出社時間から4,6合計値を引いて、目安の出社時間を算出するメソッド」へ引数として渡し、その結果を変数に格納する。
+		String result = Result(user.getLeaveHomeTime(), max, delayWalkTime);
+		mv.addObject("result", result);
 
 		//8./weatherを呼び出す
 		return weather(mv);
@@ -100,7 +106,6 @@ public class CalcController {
 
 	//遅延頻度の文章処理
 	public String Message(List<String> railwayName) {
-
 		String message = null;
 
 		//リストのあるnullの削除
@@ -114,7 +119,22 @@ public class CalcController {
 
 		message = String.join("と", railwayName);
 
-		return message + "が遅延の可能性が高いため早く家を出ましょう！";
-
+		return message + "は遅延しやすいので注意！";
 	}
+
+	//出社時間の計算処理と文章処理
+	public String Result(LocalTime leaveHomeTime, int max, int delayWalkTime) {
+		String result = null;
+
+		//合計遅延時間の算出
+		int delayTotal = max + delayWalkTime;
+
+		//時刻の減算処理
+		LocalTime goingTime = leaveHomeTime.minusMinutes(delayTotal);
+
+		result = goingTime + "に家を出ると間に合います！";
+
+		return result;
+	}
+
 }
