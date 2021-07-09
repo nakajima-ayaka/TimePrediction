@@ -1,7 +1,10 @@
 package com.example.demo;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
+=======
+>>>>>>> branch 'master' of https://github.com/nakajima-ayaka/TimePrediction
 
 import javax.servlet.http.HttpSession;
 
@@ -75,6 +78,7 @@ public class CalcController {
 		//5.通勤経路1,2,3を、「railwayテーブルから遅延頻度を検索して、結果の文面を決定するメソッド」へ引数として渡し、その結果を変数に格納する。
 		Optional<Railway> record = railwayRepository.findById(user.getCommuterCode1());
 		String test = railway.DelayFrequency(record);
+
 
 		//6.天候コード、user情報のhome_station_time及びstation_company_timeを、「徒歩遅延時間を算出処理するメソッド」へ引数として渡し、その結果を変数に格納する。
 

@@ -63,7 +63,7 @@ public class Railway {
 		//遅延頻度の取得
 		int delay = railway.getDelayFrequency();
 
-		//3であればString型の鉄道名で返す、それ以外はnullで返す分岐
+		//3以外はnullで返す分岐
 		if (delay != 3) {
 			return null;
 
