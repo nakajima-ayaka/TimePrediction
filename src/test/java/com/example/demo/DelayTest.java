@@ -88,4 +88,17 @@ class DelayTest {
 		fail("結果に相違があります。");
 	}
 
+	@Test
+	void maxメソッドで最大値が取得できるかどうか() {
+		Delay delay = new Delay();
+
+		int max = delay.max(10, 50, 25);
+
+		if (max == 50) {
+			assertTrue(true);
+			return;
+		}
+		fail("結果に相違があります。");
+	}
+
 }
