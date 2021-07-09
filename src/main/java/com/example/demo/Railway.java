@@ -74,4 +74,30 @@ public class Railway {
 
 	}
 
+	//徒歩時間計算処理
+	public int DelayWalk(int homeStationTime, int stationCompanyTime, int weatherCode) {
+
+		//係数の宣言
+		double coefficient = 0;
+
+		//天気による分岐で係数を決定
+		switch (weatherCode) {
+		case 1:
+			coefficient = 0.1;
+			break;
+		case 2:
+			coefficient = 0.2;
+			break;
+		case 3:
+			coefficient = 0.4;
+			break;
+		}
+
+		//徒歩遅延時間の算出
+		int delayWalkTime = (int) (homeStationTime * coefficient + stationCompanyTime * coefficient);
+
+		return delayWalkTime;
+
+	}
+
 }

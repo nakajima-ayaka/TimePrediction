@@ -90,6 +90,7 @@ public class CalcController {
 		mv.addObject("message", message);
 
 		//6.天候コード、user情報のhome_station_time及びstation_company_timeを、「徒歩遅延時間を算出処理するメソッド」へ引数として渡し、その結果を変数に格納する。
+		int delayWalkTime = railway.DelayWalk(user.getHomeStationTime(), user.getStationCompanyTime(), weatherCode);
 
 		//7.4,6で取得した変数を、「登録した出社時間から4,6合計値を引いて、目安の出社時間を算出するメソッド」へ引数として渡し、その結果を変数に格納する。
 
@@ -109,11 +110,11 @@ public class CalcController {
 		if (railwayName.size() == 0) {
 			message = "遅延の可能性が高い路線はありません。";
 			return message;
-			}
+		}
 
 		message = String.join("と", railwayName);
 
-        return message + "が遅延の可能性が高いため早く家を出ましょう！";
+		return message + "が遅延の可能性が高いため早く家を出ましょう！";
 
 	}
 }
