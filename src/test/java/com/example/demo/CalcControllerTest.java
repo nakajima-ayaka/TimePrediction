@@ -69,6 +69,52 @@ class CalcControllerTest {
 	}
 
 	@Test
+	void 天候を選択後に結果表示画面へ遷移できるかどうか() throws Exception {
+		String[] elements = { "小雨", "雨", "大雨" };
+
+		User user = new User(
+				1, "test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 3, 4, 5, 10);
+
+		MvcResult result = mockMvc.perform(
+				post("/weather/result")
+						.param("weatherCode", "1")
+						.sessionAttr("user", user)
+						.sessionAttr("railwayName1", "小田急線")
+						.sessionAttr("railwayName2", "JR山手線")
+						.sessionAttr("railwayName3", "JR中央線"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weather"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		List<Weather> weathers = (List<Weather>) result.getModelAndView().getModel().get("weathers");
+
+		//weathersが取得できているかをテスト
+		//weathers分繰り返す
+		for (int i = 0; i < weathers.size(); i++) {
+			//weathersからweatherを取得
+			Weather weather = weathers.get(i);
+			//codeを比較
+			assertEquals(weather.getCode(), i + 1);
+			//elementを比較
+			assertEquals(weather.getElement(), elements[i]);
+		}
+
+		// mvに追加されたmessageの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//messageを比較
+		assertEquals(message, "小田急線とJR山手線とJR中央線は遅延しやすいので注意！");
+
+		// mvに追加されたresultの値を取得
+		String resultMessage = (String) result.getModelAndView().getModel().get("result");
+
+		//resultMessageを比較
+		assertEquals(resultMessage, "07:20に家を出ると間に合います！");
+
+	}
+
+	@Test
 	void 遅延頻度の文章が表示されるかどうか() throws Exception {
 		//登録路線のリストを作成
 		List<String> railwayName = new ArrayList<>();
@@ -83,6 +129,23 @@ class CalcControllerTest {
 
 		//message変数の内容が一致するか
 		assertEquals(message, "小田急線とJR埼京線は遅延しやすいので注意！");
+	}
+
+	@Test
+	void 遅延頻度が全てnullだった場合にメッセージが取得できるかどうか() throws Exception {
+		//登録路線のリストを作成
+		List<String> railwayName = new ArrayList<>();
+
+		//リストに項目を設定
+		railwayName.add(null);
+		railwayName.add(null);
+		railwayName.add(null);
+
+		//上のリストをcalcController内のMessage(List<String> railwayName)で実行し、結果をmessage変数に格納
+		String message = calcController.Message(railwayName);
+
+		//message変数の内容が一致するか
+		assertEquals(message, "遅延の可能性が高い路線はありません。");
 	}
 
 	@Test

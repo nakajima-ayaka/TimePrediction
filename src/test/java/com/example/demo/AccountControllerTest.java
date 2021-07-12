@@ -185,6 +185,16 @@ class AccountControllerTest {
 	}
 
 	@Test
+	void 存在しない鉄道番号で登録路線名の検索した場合_nullが返ってくるかどうか() {
+		//データベースから取得
+		String railwayName = accountController.findRailway(0);
+
+		//比較
+		assertEquals(railwayName, null);
+
+	}
+
+	@Test
 	void 新規登録画面に遷移できるかどうか() throws Exception {
 		mockMvc.perform(get("/signup"))
 				.andExpect(status().isOk())
