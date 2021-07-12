@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 //@ExtendWith(SpringExtension.class)
 //@WebMvcTest(AccountController.class)
 @SpringBootTest //repositoryなど他のクラスを使用する際に使うテスト用アノテーション
-@EnableWebMvc //WebアプリケーションのMVCモデルをテストで使用可能にするアノテーション
+@EnableWebMvc // WebアプリケーションのMVCモデルをテストで使用可能にするアノテーション
 class AccountControllerTest {
 
 	private MockMvc mockMvc;

@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootTest //repositoryなど他のクラスを使用する際に使うテスト用アノテーション
-@EnableWebMvc //WebアプリケーションのMVCモデルをテストで使用可能にするアノテーション
+@EnableWebMvc // WebアプリケーションのMVCモデルをテストで使用可能にするアノテーション
 
 class CalcControllerTest {
 
