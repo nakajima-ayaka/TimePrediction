@@ -3,7 +3,6 @@ package com.example.demo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Time;
-import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ class UserTest {
 		assertEquals(code, 1);
 		assertEquals(email, "test@gmail.com");
 		assertEquals(password, "test");
-		assertEquals(leaveHomeTime, LocalTime.parse("07:30:00"));
+		assertEquals(leaveHomeTime, Time.valueOf("07:30:00"));
 		assertEquals(homeStationTime, 10);
 		assertEquals(commuterCode1, 1);
 		assertEquals(commuterCode2, 2);
@@ -90,7 +89,7 @@ class UserTest {
 
 		assertEquals(email, "test@gmail.com");
 		assertEquals(password, "test");
-		assertEquals(leaveHomeTime, LocalTime.parse("07:30:00"));
+		assertEquals(leaveHomeTime, Time.valueOf("07:30:00"));
 		assertEquals(homeStationTime, 10);
 		assertEquals(commuterCode1, 1);
 		assertEquals(commuterCode2, 2);
