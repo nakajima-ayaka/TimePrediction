@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.time.LocalTime;
+import java.sql.Time;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -144,6 +144,9 @@ public class AccountController {
 	@RequestMapping("/signup")
 	public ModelAndView signup(ModelAndView mv) {
 
+		//railwayリストを表示
+		mv.addObject("railways", railwayRepository.findAll());
+
 		//新規登録へ遷移
 		mv.setViewName("signup");
 
@@ -156,7 +159,7 @@ public class AccountController {
 	public ModelAndView signup(
 			@RequestParam("email") String email,
 			@RequestParam("password") String password,
-			@RequestParam("leaveHomeTime") LocalTime leaveHomeTime,
+			@RequestParam("leaveHomeTime") String leaveHomeTime,
 			@RequestParam(value = "homeStationTime", defaultValue = "0") int homeStationTime,
 			@RequestParam(value = "commuterCode1", defaultValue = "1") int commuterCode1,
 			@RequestParam(value = "commuterCode2", defaultValue = "1") int commuterCode2,
@@ -179,9 +182,23 @@ public class AccountController {
 			return signup(mv);
 		}
 
+		//メールアドレスの重複検知
+		User userFindEmail = findEmail(email);
+		if (userFindEmail != null) {
+
+			//表示のオブジェクト
+			mv.addObject("message", "お使いのメールアドレスは既に登録されています。");
+
+			//登録へ遷移を指定
+			return signup(mv);
+		}
+
+		//leaveHomeTimeをsql.timeに変換
+		Time time = Time.valueOf(leaveHomeTime + ":00");
+
 		//パラメータからオブジェクトを生成
 		User user = new User(
-				email, password, leaveHomeTime, homeStationTime, commuterCode1,
+				email, password, time, homeStationTime, commuterCode1,
 				commuterCode2, commuterCode3, stationCompanyTime);
 
 		//usersテーブルへの登録

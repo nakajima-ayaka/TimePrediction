@@ -43,23 +43,21 @@
 	    <div>
 	      <span class="label">通勤経路</span>
 	    <select name="commuterCode1" class="input">
-	        <option th:value=1>-</option>
-	        <option th:value=2>JR中央線</option>
-            <option th:value=3>京王線</option>
+	    	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
+			</option>
+
         </select>
     	      <span class="tilde">～</span>
 
         <select name="commuterCode2" class="input">
-	        <option th:value=1>-</option>
-	        <option th:value=2>JR中央線</option>
-            <option th:value=3>京王線</option>
+   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
+			</option>
         </select>
 	      <span class="tilde">～</span>
 
         <select name="commuterCode3" class="input">
-	        <option th:value=1>-</option>
-	        <option th:value=2>JR中央線</option>
-            <option th:value=3>京王線</option>
+   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
+			</option>
         </select> <br>
 	    </div>
 

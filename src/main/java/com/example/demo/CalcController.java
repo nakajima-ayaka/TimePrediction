@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,14 +124,17 @@ public class CalcController {
 	}
 
 	//出社時間の計算処理と文章処理
-	public String Result(LocalTime leaveHomeTime, int max, int delayWalkTime) {
+	public String Result(Time time, int max, int delayWalkTime) {
 		String result = null;
 
 		//合計遅延時間の算出
 		int delayTotal = max + delayWalkTime;
 
+		//LocalTimeへ変換
+		LocalTime goingTime = time.toLocalTime();
+
 		//時刻の減算処理
-		LocalTime goingTime = leaveHomeTime.minusMinutes(delayTotal);
+		goingTime = goingTime.minusMinutes(delayTotal);
 
 		result = goingTime + "に家を出ると間に合います！";
 

@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.time.LocalTime;
+import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ public class User {
 	private String password; //パスワード
 
 	@Column(name = "leave_home_time")
-	private LocalTime leaveHomeTime; //いつも家を出る時間
+	private Time leaveHomeTime; //いつも家を出る時間
 
 	@Column(name = "home_station_time")
 	private int homeStationTime; //自宅から最寄り駅までの所要時間(分)
@@ -47,7 +47,7 @@ public class User {
 	}
 
 	//コンストラクタ(全部入り)
-	public User(int code, String email, String password, LocalTime leaveHomeTime, int homeStationTime,
+	public User(int code, String email, String password, Time leaveHomeTime, int homeStationTime,
 			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime) {
 		this.code = code;
 		this.email = email;
@@ -61,7 +61,7 @@ public class User {
 	}
 
 	//登録の時はこのコンストラクタ(DBがシリアルだから)
-	public User(String email, String password, LocalTime leaveHomeTime, int homeStationTime,
+	public User(String email, String password, Time leaveHomeTime, int homeStationTime,
 			int commuterCode1, int commuterCode2, int commuterCode3, int stationCompanyTime) {
 		this.email = email;
 		this.password = password;
@@ -98,11 +98,11 @@ public class User {
 		this.password = password;
 	}
 
-	public LocalTime getLeaveHomeTime() {
+	public Time getLeaveHomeTime() {
 		return leaveHomeTime;
 	}
 
-	public void setLeaveHomeTime(LocalTime leaveHomeTime) {
+	public void setLeaveHomeTime(Time leaveHomeTime) {
 		this.leaveHomeTime = leaveHomeTime;
 	}
 

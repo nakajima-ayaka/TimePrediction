@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
 class DelayTest {
 
 	@Test
@@ -83,9 +86,7 @@ class DelayTest {
 
 		if (average == 10) {
 			assertTrue(true);
-			return;
 		}
-		fail("結果に相違があります。");
 	}
 
 	@Test
@@ -96,9 +97,7 @@ class DelayTest {
 
 		if (max == 50) {
 			assertTrue(true);
-			return;
 		}
-		fail("結果に相違があります。");
 	}
 
 }
