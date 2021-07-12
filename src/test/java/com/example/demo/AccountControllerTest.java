@@ -207,14 +207,80 @@ class AccountControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("login"));
 
-		//
-		//		Optional<User> record = userRepository.findById(4);
-		//		User user = record.get();
+	}
 
-		//		// mvに追加されたweathersの値を取得
-		//
-		//		//メッセージをテスト
-		//		assertEquals(user.getEmail(), "未記入箇所があります");
+	@Test
+	//JUnitは標準でロールバックしてくれる
+	@Transactional
+	void 新規登録処理でメールアドレスが空なことを検知できるかどうか() throws Exception {
+		MvcResult result = mockMvc.perform(post("/signup")
+				.param("email", "")
+				.param("password", "f")
+				.param("leaveHomeTime", "07:55")
+				.param("homeStationTime", "20")
+				.param("commuterCode1", "12")
+				.param("commuterCode2", "11")
+				.param("commuterCode3", "1")
+				.param("stationCompanyTime", "5"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("signup"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "未記入箇所があります");
+
+	}
+
+	@Test
+	//JUnitは標準でロールバックしてくれる
+	@Transactional
+	void 新規登録処理でパスワードが空なことを検知できるかどうか() throws Exception {
+		MvcResult result = mockMvc.perform(post("/signup")
+				.param("email", "zzz@gmail.com")
+				.param("password", "")
+				.param("leaveHomeTime", "07:55")
+				.param("homeStationTime", "20")
+				.param("commuterCode1", "12")
+				.param("commuterCode2", "11")
+				.param("commuterCode3", "1")
+				.param("stationCompanyTime", "5"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("signup"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "未記入箇所があります");
+
+	}
+
+	@Test
+	//JUnitは標準でロールバックしてくれる
+	@Transactional
+	void 新規登録処理でメールアドレスの重複を検知できるかどうか() throws Exception {
+		MvcResult result = mockMvc.perform(post("/signup")
+				.param("email", "a@gmail.com")
+				.param("password", "f")
+				.param("leaveHomeTime", "07:55")
+				.param("homeStationTime", "20")
+				.param("commuterCode1", "12")
+				.param("commuterCode2", "11")
+				.param("commuterCode3", "1")
+				.param("stationCompanyTime", "5"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("signup"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "お使いのメールアドレスは既に登録されています。");
 
 	}
 
