@@ -98,7 +98,7 @@ class RailwayTest {
 		Railway railway = new Railway();
 
 		//メソッドの結果をdelayWalkTimeへ
-		int delayWalkTime = railway.DelayWalk(10, 10, 1);
+		int delayWalkTime = railway.DelayWalk(10, 10, 0.1);
 
 		assertEquals(delayWalkTime, 2);
 	}
@@ -110,7 +110,7 @@ class RailwayTest {
 		Railway railway = new Railway();
 
 		//メソッドの結果をdelayWalkTimeへ
-		int delayWalkTime = railway.DelayWalk(20, 15, 2);
+		int delayWalkTime = railway.DelayWalk(20, 15, 0.2);
 
 		assertEquals(delayWalkTime, 7);
 	}
@@ -122,7 +122,7 @@ class RailwayTest {
 		Railway railway = new Railway();
 
 		//メソッドの結果をdelayWalkTimeへ
-		int delayWalkTime = railway.DelayWalk(30, 17, 3);
+		int delayWalkTime = railway.DelayWalk(30, 17, 0.4);
 
 		assertEquals(delayWalkTime, 18);
 	}

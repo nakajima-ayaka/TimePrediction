@@ -95,7 +95,9 @@ public class CalcController {
 		mv.addObject("message", message);
 
 		//6.天候コード、user情報のhome_station_time及びstation_company_timeを、「徒歩遅延時間を算出処理するメソッド」へ引数として渡し、その結果を変数に格納する。
-		int delayWalkTime = railway.DelayWalk(user.getHomeStationTime(), user.getStationCompanyTime(), weatherCode);
+		Optional<Weather> weather = weatherRepository.findById(weatherCode);
+		int delayWalkTime = railway.DelayWalk(user.getHomeStationTime(), user.getStationCompanyTime(),
+				weather.get().getCoefficient());
 
 		//7.4,6で取得した変数を、「登録した出社時間から4,6合計値を引いて、目安の出社時間を算出するメソッド」へ引数として渡し、その結果を変数に格納する。
 		String result = Result(user.getLeaveHomeTime(), max, delayWalkTime);

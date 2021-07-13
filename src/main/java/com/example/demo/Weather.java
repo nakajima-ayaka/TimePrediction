@@ -18,14 +18,16 @@ public class Weather {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int code; //天候番号
 	private String element; //天候
+	private double coefficient; //遅延係数
 
 	//コンストラクタ(引数なし)
 	public Weather() {
 	}
 
 	//コンストラクタ(引数あり)
-	public Weather(String element) {
+	public Weather(String element, double coefficient) {
 		this.element = element;
+		this.coefficient = coefficient;
 	}
 
 	//アクセッサ・メソッド(セッタ＆ゲッタ)
@@ -43,6 +45,14 @@ public class Weather {
 
 	public void setElement(String element) {
 		this.element = element;
+	}
+
+	public double getCoefficient() {
+		return coefficient;
+	}
+
+	public void setCoefficient(double coefficient) {
+		this.coefficient = coefficient;
 	}
 
 }
