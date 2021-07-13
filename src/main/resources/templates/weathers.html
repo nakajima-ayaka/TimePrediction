@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>天候管理</title>
+</head>
+<body>
+	<h1>天候一覧</h1>
+
+	<br>
+
+	<table border="1">
+		<tr>
+			<th>天候番号</th>
+			<th>天気</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="weather:${weathers}">
+			<td th:text="${weather.code}"></td>
+			<td th:text="${weather.element}"></td>
+			<td>
+				<form th:action="'/weathers/' + ${weather.code} + '/delete'"
+					method="post">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+	<form th:action="/weather/new"
+		method="post">
+		<input type="submit" value="追加">
+	</form>
+
+	<a href="/weather/new">天候の追加</a>はこちら
+	<br>
+	<a href="/manage">管理一覧</a>はこちら
+</body>
+</html>

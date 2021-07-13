@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ユーザ管理</title>
+</head>
+<body>
+	<h1>ユーザ一覧</h1>
+
+	<br>
+
+	<table border="1">
+		<tr>
+			<th>会員番号</th>
+			<th>メールアドレス</th>
+			<th>パスワード</th>
+			<th>いつも家を出る時間</th>
+			<th>自宅から最寄り駅までの所要時間(分)</th>
+			<th>通勤経路１</th>
+			<th>通勤経路２</th>
+			<th>通勤経路３</th>
+			<th>駅から会社までの所要時間(分)</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="user:${users}">
+			<td th:text="${user.code}"></td>
+			<td th:text="${user.email}"></td>
+			<td th:text="${user.password}"></td>
+			<td th:text="${user.leaveHomeTime}"></td>
+			<td th:text="${user.homeStationTime+'分'}"></td>
+			<td th:text="${user.commuterCode1}"></td>
+			<td th:text="${user.commuterCode2}"></td>
+			<td th:text="${user.commuterCode3}"></td>
+			<td th:text="${user.stationCompanyTime+'分'}"></td>
+			<td>
+				<form th:action="'/users/' + ${user.code} + '/delete'" method="post">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+
+	<a href="/manage">管理一覧</a>はこちら
+</body>
+</html>

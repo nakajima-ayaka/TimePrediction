@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>管理画面</title>
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+
+	<h1>管理画面</h1>
+
+	<br>
+
+	<form action="/users" method="post">
+		<input type="submit" value="ユーザ一覧" class="manageinfo"><br><br>
+	</form>
+
+	<form action="/weathers" method="post">
+		<input type="submit" value="天候" class="manageinfo"><br><br>
+	</form>
+
+	<form action="/railways" method="post">
+		<input type="submit" value="鉄道" class="manageinfo"><br><br>
+	</form>
+
+	<form action="/delays" method="post">
+		<input type="submit" value="遅延情報" class="manageinfo"><br><br>
+	</form>
+
+	<br>
+
+	<div class="logout">
+		<a href="/">ログアウト</a>はこちら
+	</div>
+
+
+</body>
+</html>

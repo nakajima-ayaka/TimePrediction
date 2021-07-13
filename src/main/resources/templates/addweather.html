@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>天候管理</title>
+</head>
+<body>
+	<h1>天候登録</h1>
+
+	<p th:text="${message}" class="message"></p>
+
+	<form action="/weather/newset" method="post">
+		<table border="1">
+			<tr>
+				<th>天候名</th>
+				<td><input type="text" name="element"></td>
+			</tr>
+		</table>
+		<br> <input type="submit" value="登録">
+	</form>
+
+	<br>
+	<a href="/weather">天候一覧</a>に戻る
+
+</body>
+</html>
