@@ -39,6 +39,8 @@ public class ManageController {
 	//DelayRepositoryを使えるようにする
 	private DelayRepository delayRepository;
 
+	private Object object;
+
 	//管理者画面に遷移
 	@RequestMapping("/manage")
 	public String manage() {
@@ -49,24 +51,67 @@ public class ManageController {
 
 	//ユーザ一覧の表示および削除画面
 	@PostMapping("/users")
-	public ModelAndView managingUser(ModelAndView mv) {
+	public ModelAndView user(ModelAndView mv) {
 
-		//全ユーザ情報取得
+		//全ユーザ情報リスト取得
 		List<User> users = userRepository.findAll();
 
-		// Thymeleafで表示する準備を行う
-		mv.addObject("users", users);
+		//鉄道日本語化用Listを宣言
+		List<String> railwayNames1 = new ArrayList<String>();
+		List<String> railwayNames2 = new ArrayList<String>();
+		List<String> railwayNames3 = new ArrayList<String>();
+
+		//鉄道名日本語変換
+		for (User user : users) {
+
+			//鉄道の日本語化
+			Optional<Railway> record1 = railwayRepository.findById(user.getCommuterCode1());
+			Optional<Railway> record2 = railwayRepository.findById(user.getCommuterCode2());
+			Optional<Railway> record3 = railwayRepository.findById(user.getCommuterCode3());
+
+			Railway railway1 = record1.get();
+			Railway railway2 = record2.get();
+			Railway railway3 = record3.get();
+
+			railwayNames1.add(railway1.getName());
+			railwayNames2.add(railway2.getName());
+			railwayNames3.add(railway3.getName());
+
+		}
+
+		//ユーザ情報リストをmvに設定
+		mv.addObject("users", userRepository.findAll());
+
+		//鉄道名(日本語)をmvに設定
+		mv.addObject("railwayNames1", railwayNames1);
+		mv.addObject("railwayNames2", railwayNames2);
+		mv.addObject("railwayNames3", railwayNames3);
 
 		//ユーザ一覧へ遷移の指定
 		mv.setViewName("users");
 		return mv;
 	}
 
-	//天候一覧の表示および削除画面
-	@PostMapping("/weathers")
-	public ModelAndView managingWeather(ModelAndView mv) {
+	//ユーザの削除
+	@PostMapping("/users/{code}/delete")
+	public ModelAndView userDelete(
+			ModelAndView mv,
+			@PathVariable("code") int code
+			) {
+		//指定したコードのユーザ情報を削除
+		Optional<User> record = userRepository.findById(code);
 
-		//全天候情報の取得
+		if (!record.isEmpty()) {
+			userRepository.deleteById(code);
+		}
+		return user(mv); // ユーザ情報一覧表示
+	}
+
+	//天候の追加・削除画面
+	@PostMapping("/weathers")
+	public ModelAndView weather(ModelAndView mv) {
+
+		//天候リストの取得
 		List<Weather> weathers = weatherRepository.findAll();
 
 		// Thymeleafで表示する準備を行う
@@ -79,7 +124,7 @@ public class ManageController {
 
 	//天候の削除
 	@PostMapping("/weathers/{code}/delete")
-	public ModelAndView deleteWeathers(
+	public ModelAndView weatherDelete(
 			ModelAndView mv,
 			@PathVariable("code") int code) {
 		//指定したコードの天候情報を削除
@@ -88,47 +133,61 @@ public class ManageController {
 		if (!record.isEmpty()) {
 			weatherRepository.deleteById(code);
 		}
-		return managingWeather(mv); // 天候情報一覧表示
+		return weather(mv); // 天候情報一覧表示
 	}
 
-	//天候の新規登録
-	@RequestMapping("/weather/new")
-	public ModelAndView addWeather(ModelAndView mv) {
-
-		//天候登録へ遷移指定
-		mv.setViewName("addweather");
-
-		return mv;
-	}
-
-	//天候の新規登録(入力済み)
-	@PostMapping("/weather/newset")
-	public ModelAndView addWeather(
-			@RequestParam(name = "name") String name,
+	//天候追加処理(入力済み)
+	@PostMapping("/weathers/add")
+	public ModelAndView weatherAdd(
+			@RequestParam("element") String element,
+			@RequestParam(value = "coefficient", defaultValue = "3") double coefficient,
 			ModelAndView mv) {
 
 		//入力チェック
-		if (name.equals("")) {
+		if (element.equals("") || coefficient > 2) {
 
 			//表示する内容を準備
-			mv.addObject("message", "入力してください。");
+			mv.addObject("message", "入力してください");
 
 			//遷移先の指定
-			mv.setViewName("addWeather");
-
-			return mv;
-
-		} else {//全て入力済みなら↓
-
-			///登録するエンティティのインスタンスを生成
-			Weather weather = new Weather(name);
-
-			//Weatherエンティティをweatherテーブルに登録
-			weatherRepository.saveAndFlush(weather);
-
-			//引数にこのメソッド結果を格納＆全件検索の呼び出し
-			return managingWeather(mv);
+			return weather(mv);
 		}
+
+		//天候名の重複検知
+		Weather weatheFindName = findByRecordWeatherName(element);
+		if (weatheFindName != null) {
+
+			//表示のオブジェクト
+			mv.addObject("message", element + "は既に登録されています。");
+
+			//一覧表示へ遷移を指定
+			return railway(mv);
+		}
+
+		//追加用レコードを作成
+		Weather weather = new Weather(element, coefficient);
+
+		//railwayテーブルへの登録
+		weatherRepository.saveAndFlush(weather);
+
+		return weather(mv);
+
+	}
+
+	//天候名からレコードを取得
+	public Weather findByRecordWeatherName(String element) {
+
+		//鉄道名での検索結果を取得
+		Optional<Weather> record = weatherRepository.findByElement(element);
+
+		//recordの有無の判定
+		if (!record.isEmpty()) {
+			return record.get();
+		}
+
+		//recordが無い場合はnullを返す
+		return null;
+
 	}
 
 	//鉄道の追加・削除画面表示
@@ -383,20 +442,6 @@ public class ManageController {
 			//recordが無い場合はnullを返す
 			return null;
 		}
-	}
-
-	//ユーザの削除
-	@PostMapping("/users/{code}/delete")
-	public ModelAndView deleteUser(
-			ModelAndView mv,
-			@PathVariable("code") int code) {
-		//指定したコードのユーザ情報を削除
-		Optional<User> record = userRepository.findById(code);
-
-		if (!record.isEmpty()) {
-			userRepository.deleteById(code);
-		}
-		return managingUser(mv); // ユーザ情報一覧表示
 	}
 
 }

@@ -5,9 +5,10 @@
 <title>ユーザ管理</title>
 </head>
 <body>
-	<h1>ユーザ一覧</h1>
 
-	<br>
+	<h1>ユーザ一覧表示</h1>
+
+	<hr>
 
 	<table border="1">
 		<tr>
@@ -22,26 +23,31 @@
 			<th>駅から会社までの所要時間(分)</th>
 			<th>削除</th>
 		</tr>
-		<tr th:each="user:${users}">
+		<tr th:each="user,status:${users}">
 			<td th:text="${user.code}"></td>
 			<td th:text="${user.email}"></td>
 			<td th:text="${user.password}"></td>
 			<td th:text="${user.leaveHomeTime}"></td>
 			<td th:text="${user.homeStationTime+'分'}"></td>
-			<td th:text="${user.commuterCode1}"></td>
-			<td th:text="${user.commuterCode2}"></td>
-			<td th:text="${user.commuterCode3}"></td>
+			<td th:text="${railwayNames1[status.index]}"></td>
+			<td th:text="${railwayNames2[status.index]}"></td>
+			<td th:text="${railwayNames3[status.index]}"></td>
 			<td th:text="${user.stationCompanyTime+'分'}"></td>
 			<td>
-				<form th:action="'/users/' + ${user.code} + '/delete'" method="post">
-					<input type="submit" value="削除">
+			<form th:action="'/users/' + ${user.code} + '/delete'" method="post">
+				<input type="submit" value="削除">
 				</form>
 			</td>
 		</tr>
 	</table>
 
-	<br>
+	<hr>
 
+	<div class="logout">
+		<a href="/">ログアウト</a>はこちら
+	</div>
 	<a href="/manage">管理一覧</a>はこちら
+
+
 </body>
 </html>

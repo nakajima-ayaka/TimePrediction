@@ -5,36 +5,49 @@
 <title>天候管理</title>
 </head>
 <body>
-	<h1>天候一覧</h1>
 
-	<br>
+<script src="/js/weather.js"></script>
+
+	<h1>天候一覧表示</h1>
+
+	<p th:text="${message}" class="message"></p>
+
+	<form action="/weathers/add" method="post">
+		天気：
+		 <input type="text" name="element">
+		遅延係数：
+		 <input type="number" name="coefficient" step="0.1" value="0.1" min="0" max="2" >
+		 <input type="submit" value="追加">
+	</form>
+
+	<hr>
 
 	<table border="1">
 		<tr>
 			<th>天候番号</th>
 			<th>天気</th>
+			<th>遅延係数</th>
 			<th>削除</th>
 		</tr>
 		<tr th:each="weather:${weathers}">
 			<td th:text="${weather.code}"></td>
 			<td th:text="${weather.element}"></td>
+			<td th:text="${weather.coefficient}"></td>
 			<td>
-				<form th:action="'/weathers/' + ${weather.code} + '/delete'"
-					method="post">
-					<input type="submit" value="削除">
+			<form th:action="'/weathers/' + ${weather.code} + '/delete'" method="post">
+				<input type="submit" value="削除">
 				</form>
 			</td>
 		</tr>
 	</table>
 
-	<br>
-	<form th:action="/weather/new"
-		method="post">
-		<input type="submit" value="追加">
-	</form>
+	<hr>
 
-	<a href="/weather/new">天候の追加</a>はこちら
-	<br>
+	<div class="logout">
+		<a href="/">ログアウト</a>はこちら
+	</div>
 	<a href="/manage">管理一覧</a>はこちら
+
+
 </body>
 </html>
