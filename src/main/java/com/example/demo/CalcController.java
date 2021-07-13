@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CalcController {
 
-	//他クラスとの繋がりを宣言する記述が大幅に減るアノテーション
+	// 他クラスとの繋がりを宣言する記述が大幅に減るアノテーション
 	@Autowired
 	//セッションスコープを使えるようにする
 	HttpSession session;
