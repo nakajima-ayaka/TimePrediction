@@ -7,7 +7,6 @@
 </head>
 <body>
 
-
 	<h1>天候選択</h1>
 
 	<form action="/weather/result" method="post">
@@ -42,6 +41,15 @@
 			<li>駅から会社までの所要時間：<span th:text="${session.user.stationCompanyTime+'分'}"></span></li>
 		</ul>
 	</div>
+
+	<br>
+
+	<div th:if="${session.user.email eq 'admin@xxx.com'}">
+	<form action="/manage" method="post">
+		<input type="submit" value="管理用ページ" class="manageinfo"><br><br>
+	</form>
+	</div>
+	<br>
 
 	<div class="logout">
 	  	<a href="/">ログアウト</a>はこちら

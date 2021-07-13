@@ -163,7 +163,7 @@ class AccountControllerTest {
 		User user = accountController.findEmail("a@gmail.com");
 
 		//比較
-		assertEquals(user.getCode(), 1);
+		assertEquals(user.getCode(), 2);
 		assertEquals(user.getEmail(), "a@gmail.com");
 		assertEquals(user.getPassword(), "a");
 		assertEquals(user.getLeaveHomeTime(), Time.valueOf("07:30:00"));

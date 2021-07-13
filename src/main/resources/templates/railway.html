@@ -10,7 +10,7 @@
 
 	<p th:text="${message}" class="message"></p>
 
-	<form action="railways/add" method="post">
+	<form action="/railways/add" method="post">
 		鉄道名：
 		<input type="text" name="railwayName">
 		遅延しやすさ：
@@ -33,7 +33,7 @@
 			<td th:text="${railway.name}"></td>
 			<td th:text="${delayFrequencys[status.index]}"></td>
 			<td>
-				<form action="railways/delete" method="post">
+				<form action="/railways/delete" method="post">
 					<input type="hidden" name="code" th:value="${railway.code}">
 					<input type="submit" value="削除">
 				</form>
@@ -42,9 +42,12 @@
 	</table>
 
 	<hr>
+
 	<div class="logout">
-	  	<a href="/">ログアウト</a>はこちら
+		<a href="/">ログアウト</a>はこちら
 	</div>
+	<a href="/manage">管理一覧</a>はこちら
+
 
 </body>
 </html>
