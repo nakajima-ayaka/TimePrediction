@@ -36,6 +36,12 @@ public class Railway {
 		this.delayFrequency = delayFrequency;
 	}
 
+	//コンストラクタ(追加用)
+	public Railway(String name, int delayFrequency) {
+		this.name = name;
+		this.delayFrequency = delayFrequency;
+	}
+
 	//アクセッサ・メソッド(ゲッタ)
 	public int getCode() {
 		return code;

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>遅延情報一覧表示</title>
+</head>
+<body>
+
+<script src="/js/delayadd.js"></script>
+
+	<h1>遅延情報一覧表示</h1>
+
+	<p th:text="${message}" class="message"></p>
+
+	<form action="/delays/add" method="post">
+		天候：
+	    <select name="weatherCode" class="input">
+	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}" >
+			</option>
+        </select>
+
+		鉄道名：
+	    <select name="commuterCode" class="input">
+   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
+			</option>
+        </select>
+
+		遅延時間(分)：
+		<input type="number" name="delayTime" class="minuteinput"min=0 value=0>
+
+		遅延日付：
+		<input type="date" name="delayDate"  id="today" class="dateInput">
+
+		<input type="submit" value="追加">
+	</form>
+
+	<hr>
+
+	<table border="1">
+		<tr>
+			<th>遅延番号</th><th>天候</th><th>鉄道</th><th>遅延時間(分)</th><th>遅延日付</th><th></th>
+		</tr>
+		<tr th:each="delay,status:${delays}">
+			<td th:text="${delay.code}"></td>
+			<td th:text="${weatherElements[status.index]}"></td>
+			<td th:text="${railwayNames[status.index]}"></td>
+			<td th:text="${delay.delayTime}"></td>
+			<td th:text="${delay.date}"></td>
+			<td>
+				<form action="/delays/delete" method="post">
+					<input type="hidden" name="code" th:value="${delay.code}">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<hr>
+	<div class="logout">
+	  	<a href="/">ログアウト</a>はこちら
+	</div>
+
+</body>
+</html>

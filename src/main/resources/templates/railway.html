@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>鉄道一覧表示</title>
+</head>
+<body>
+
+	<h1>鉄道一覧表示</h1>
+
+	<p th:text="${message}" class="message"></p>
+
+	<form action="railways/add" method="post">
+		鉄道名：
+		<input type="text" name="railwayName">
+		遅延しやすさ：
+		<select name="delayFrequency">
+			<option value="1">低い</option>
+			<option value="2">普通</option>
+			<option value="3">高い</option>
+		</select>
+		<input type="submit" value="追加">
+	</form>
+
+	<hr>
+
+	<table border="1">
+		<tr>
+			<th>鉄道番号</th><th>鉄道名</th><th>遅延頻度</th><th>削除</th>
+		</tr>
+		<tr th:each="railway,status:${railways}">
+			<td th:text="${railway.code}"></td>
+			<td th:text="${railway.name}"></td>
+			<td th:text="${delayFrequencys[status.index]}"></td>
+			<td>
+				<form action="railways/delete" method="post">
+					<input type="hidden" name="code" th:value="${railway.code}">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<hr>
+	<div class="logout">
+	  	<a href="/">ログアウト</a>はこちら
+	</div>
+
+</body>
+</html>

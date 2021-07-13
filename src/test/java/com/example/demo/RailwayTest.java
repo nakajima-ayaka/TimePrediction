@@ -31,6 +31,22 @@ class RailwayTest {
 	}
 
 	@Test
+	void 登録用コンストラクタで値を設定_Getterで値が取得できるかどうか() {
+
+		//コンストラクタで値を設定
+		Railway railway = new Railway("a路線", 15);
+
+		//各種フィールド取得
+		int code = railway.getCode();
+		String name = railway.getName();
+		int delayFrequency = railway.getDelayFrequency();
+
+		assertEquals(code, 0);
+		assertEquals(name, "a路線");
+		assertEquals(delayFrequency, 15);
+	}
+
+	@Test
 	void 遅延頻度取得処理で3以外の場合nullが返ってくるかどうか() {
 
 		//Railwayを宣言
