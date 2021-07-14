@@ -472,8 +472,8 @@ class ManageControllerTest {
 		int size = testUser.getCode();
 
 		//実行前にuserが存在することを確認
-		Optional<User> user = userRepository.findById(size);
-		assertTrue(!user.isEmpty());
+		Optional<User> testRecord = userRepository.findById(size);
+		assertFalse(testRecord.isEmpty());
 
 		//処理実行
 		mockMvc.perform(post("/users/" + size + "/delete"))
@@ -481,8 +481,8 @@ class ManageControllerTest {
 				.andExpect(view().name("users"));
 
 		//実行後にuserが存在しないことを確認
-		user = userRepository.findById(size);
-		assertFalse(!user.isEmpty());
+		Optional<User> record = userRepository.findById(size);
+		assertTrue(record.isEmpty());
 
 	}
 
@@ -501,7 +501,7 @@ class ManageControllerTest {
 
 		//実行前にweatherが存在することを確認
 		Optional<Weather> weather = weatherRepository.findById(size);
-		assertTrue(!weather.isEmpty());
+		assertFalse(weather.isEmpty());
 
 		//処理実行
 		mockMvc.perform(post("/weathers/" + size + "/delete"))
@@ -510,7 +510,7 @@ class ManageControllerTest {
 
 		//実行後にuserが存在しないことを確認
 		weather = weatherRepository.findById(size);
-		assertFalse(!weather.isEmpty());
+		assertTrue(weather.isEmpty());
 
 	}
 
