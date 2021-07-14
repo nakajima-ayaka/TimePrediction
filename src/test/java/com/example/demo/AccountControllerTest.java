@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.sql.Time;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,9 @@ class AccountControllerTest {
 	AccountController accountController;
 
 	@Autowired
+	WeatherRepository weatherRepository;
+
+	@Autowired
 	MockHttpSession session;
 
 	@BeforeEach
@@ -54,7 +58,8 @@ class AccountControllerTest {
 
 	@Test
 	void ログイン処理が実行できるかどうか() throws Exception {
-		String[] elements = { "小雨", "雨", "大雨" };
+		//DBに登録されている天候を取得
+		List<Weather> dbWeathers = weatherRepository.findAll();
 
 		MvcResult result = mockMvc.perform(
 				post("/login")
@@ -85,9 +90,12 @@ class AccountControllerTest {
 			//weathersからweatherを取得
 			Weather weather = weathers.get(i);
 			//codeを比較
-			assertEquals(weather.getCode(), i + 1);
+			assertEquals(weather.getCode(), dbWeathers.get(i).getCode());
 			//elementを比較
-			assertEquals(weather.getElement(), elements[i]);
+			assertEquals(weather.getElement(), dbWeathers.get(i).getElement());
+			//coefficientを比較
+			assertEquals(weather.getCoefficient(), dbWeathers.get(i).getCoefficient());
+
 		}
 
 	}
@@ -216,6 +224,30 @@ class AccountControllerTest {
 				.param("stationCompanyTime", "5"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("login"));
+
+		//テスト用に追加用レコードを作成
+		User testUser = new User(
+				"test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 1, 2, 3, 10);
+
+		//テスト用レコードの追加
+		testUser = userRepository.saveAndFlush(testUser);
+
+		//テスト用を追加したコードから1を引いた数値を取得
+		int size = testUser.getCode() - 1;
+
+		//mockで追加したレコードを取得
+		Optional<User> record = userRepository.findById(size);
+		User user = record.get();
+
+		//追加されたものと比較
+		assertEquals(user.getEmail(), "f@gmail.com");
+		assertEquals(user.getPassword(), "f");
+		assertEquals(user.getLeaveHomeTime(), Time.valueOf("07:55:00"));
+		assertEquals(user.getHomeStationTime(), 20);
+		assertEquals(user.getCommuterCode1(), 12);
+		assertEquals(user.getCommuterCode2(), 11);
+		assertEquals(user.getCommuterCode3(), 1);
+		assertEquals(user.getStationCompanyTime(), 5);
 
 	}
 

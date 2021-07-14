@@ -80,6 +80,14 @@ public class CalcController {
 		//4.上の1,2,3で取得した変数を、「3つの中から最大値取得処理を実行するメソッド」へ引数として渡し、その結果を変数に格納する。
 		int max = delay.max(FirstAverage, SecondAverage, ThirdAverage);
 
+		//過去の遅延時間が登録されていない場合は
+		//情報が正しくない旨をメッセージで表示する
+		if (max == 0) {
+			mv.addObject("result", "選択した天候は過去の遅延時間が登録されていない為、正しい時間が表示できません。");
+			mv.addObject("message", "管理者へ連絡してください。");
+			return weather(mv);
+		}
+
 		//5.通勤経路1,2,3を、「railwayテーブルから遅延頻度を検索して、結果の文面を決定するメソッド」へ引数として渡し、その結果を変数に格納する。
 		Optional<Railway> record1 = railwayRepository.findById(user.getCommuterCode1());
 		Optional<Railway> record2 = railwayRepository.findById(user.getCommuterCode2());

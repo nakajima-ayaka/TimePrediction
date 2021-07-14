@@ -108,6 +108,12 @@ public class Delay {
 			total += delay.delayTime;
 		}
 
+		//過去の遅延時間が存在していない場合
+		if (total == 0) {
+			//0を返す
+			return 0;
+		}
+
 		//平均時間(分)を返す
 		return total / list.size();
 	}

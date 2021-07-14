@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,11 +41,13 @@ public class ManageController {
 	private Object object;
 
 	//管理者画面に遷移
-	@RequestMapping("/manage")
-	public String manage() {
+	@PostMapping("/manage")
+	public ModelAndView manage(ModelAndView mv) {
 
 		//管理者画面へ遷移
-		return "manage";
+		mv.setViewName("manage");
+
+		return mv;
 	}
 
 	//ユーザ一覧の表示および削除画面
@@ -96,8 +97,7 @@ public class ManageController {
 	@PostMapping("/users/{code}/delete")
 	public ModelAndView userDelete(
 			ModelAndView mv,
-			@PathVariable("code") int code
-			) {
+			@PathVariable("code") int code) {
 		//指定したコードのユーザ情報を削除
 		Optional<User> record = userRepository.findById(code);
 
@@ -161,7 +161,7 @@ public class ManageController {
 			mv.addObject("message", element + "は既に登録されています。");
 
 			//一覧表示へ遷移を指定
-			return railway(mv);
+			return weather(mv);
 		}
 
 		//追加用レコードを作成

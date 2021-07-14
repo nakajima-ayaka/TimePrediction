@@ -29,6 +29,9 @@ class CalcControllerTest {
 	WebApplicationContext webApplicationContext;
 
 	@Autowired
+	WeatherRepository weatherRepository;
+
+	@Autowired
 	CalcController calcController;
 
 	@BeforeEach
@@ -38,7 +41,8 @@ class CalcControllerTest {
 
 	@Test
 	void 天候一覧を取得_天候選択画面へ遷移できるかどうか() throws Exception {
-		String[] elements = { "小雨", "雨", "大雨" };
+		//DBに登録されている天候を取得
+		List<Weather> dbWeathers = weatherRepository.findAll();
 
 		User user = new User(
 				1, "test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 1, 2, 3, 10);
@@ -62,15 +66,20 @@ class CalcControllerTest {
 			//weathersからweatherを取得
 			Weather weather = weathers.get(i);
 			//codeを比較
-			assertEquals(weather.getCode(), i + 1);
+			assertEquals(weather.getCode(), dbWeathers.get(i).getCode());
 			//elementを比較
-			assertEquals(weather.getElement(), elements[i]);
+			assertEquals(weather.getElement(), dbWeathers.get(i).getElement());
+			//coefficientを比較
+			assertEquals(weather.getCoefficient(), dbWeathers.get(i).getCoefficient());
+
 		}
+
 	}
 
 	@Test
 	void 天候を選択後に結果表示画面へ遷移できるかどうか() throws Exception {
-		String[] elements = { "小雨", "雨", "大雨" };
+		//DBに登録されている天候を取得
+		List<Weather> dbWeathers = weatherRepository.findAll();
 
 		User user = new User(
 				1, "test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 3, 4, 5, 10);
@@ -95,9 +104,12 @@ class CalcControllerTest {
 			//weathersからweatherを取得
 			Weather weather = weathers.get(i);
 			//codeを比較
-			assertEquals(weather.getCode(), i + 1);
+			assertEquals(weather.getCode(), dbWeathers.get(i).getCode());
 			//elementを比較
-			assertEquals(weather.getElement(), elements[i]);
+			assertEquals(weather.getElement(), dbWeathers.get(i).getElement());
+			//coefficientを比較
+			assertEquals(weather.getCoefficient(), dbWeathers.get(i).getCoefficient());
+
 		}
 
 		// mvに追加されたmessageの値を取得
@@ -111,6 +123,37 @@ class CalcControllerTest {
 
 		//resultMessageを比較
 		assertEquals(resultMessage, "07:20に家を出ると間に合います！");
+
+	}
+
+	@Test
+	void 過去遅延時間の登録がない天候を選択時にメッセージが表示できるかどうか() throws Exception {
+
+		User user = new User(
+				1, "test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 3, 4, 5, 10);
+
+		MvcResult result = mockMvc.perform(
+				post("/weather/result")
+						.param("weatherCode", "4")
+						.sessionAttr("user", user)
+						.sessionAttr("railwayName1", "小田急線")
+						.sessionAttr("railwayName2", "JR山手線")
+						.sessionAttr("railwayName3", "JR中央線"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weather"))
+				.andReturn();
+
+		// mvに追加されたmessageの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//messageを比較
+		assertEquals(message, "管理者へ連絡してください。");
+
+		// mvに追加されたresultの値を取得
+		String resultMessage = (String) result.getModelAndView().getModel().get("result");
+
+		//resultMessageを比較
+		assertEquals(resultMessage, "選択した天候は過去の遅延時間が登録されていない為、正しい時間が表示できません。");
 
 	}
 

@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +41,9 @@ class ManageControllerTest {
 	ManageController manageController;
 
 	@Autowired
+	WeatherRepository weatherRepository;
+
+	@Autowired
 	RailwayRepository railwayRepository;
 
 	@Autowired
@@ -55,6 +60,28 @@ class ManageControllerTest {
 	@Test
 	void 鉄道一覧表示画面に遷移できるかどうか() throws Exception {
 
+		//DBに登録されている情報を取得
+		List<Railway> dbRailways = railwayRepository.findAll();
+
+		//DBのdelayFrequencyをリスト化
+		List<String> dbDelayFrequency = new ArrayList<String>();
+		for (Railway railway : dbRailways) {
+			switch (railway.getDelayFrequency()) {
+			case 1:
+				dbDelayFrequency.add("低い");
+				break;
+			case 2:
+				dbDelayFrequency.add("普通");
+				break;
+			case 3:
+				dbDelayFrequency.add("高い");
+				break;
+			}
+		}
+
+		//dbDelayFrequencyをmapで集計
+		Map<String, List<String>> dbMap = dbDelayFrequency.stream().collect(Collectors.groupingBy(i -> i));
+
 		MvcResult result = mockMvc.perform(post("/railways"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("railway"))
@@ -64,7 +91,7 @@ class ManageControllerTest {
 		List<Railway> railways = (List<Railway>) result.getModelAndView().getModel().get("railways");
 
 		//railwaysをテスト
-		assertEquals(railways.size(), 15);
+		assertEquals(railways.size(), dbRailways.size());
 
 		// mvに追加されたrailwaysの値を取得
 		List<String> delayFrequency = (List<String>) result.getModelAndView().getModel().get("delayFrequencys");
@@ -73,9 +100,9 @@ class ManageControllerTest {
 		Map<String, List<String>> map = delayFrequency.stream().collect(Collectors.groupingBy(i -> i));
 
 		//delayFrequencyをテスト(各行数を比較)
-		assertEquals(map.get("低い").size(), 7);
-		assertEquals(map.get("普通").size(), 3);
-		assertEquals(map.get("高い").size(), 5);
+		assertEquals(map.get("低い").size(), dbMap.get("低い").size());
+		assertEquals(map.get("普通").size(), dbMap.get("普通").size());
+		assertEquals(map.get("高い").size(), dbMap.get("高い").size());
 	}
 
 	@Test
@@ -89,7 +116,7 @@ class ManageControllerTest {
 				.andExpect(view().name("railway"))
 				.andReturn();
 
-		//サイズ取得用に追加用レコードを作成
+		//テスト用に追加用レコードを作成
 		Railway testRailway = new Railway("test1", 1);
 
 		//テスト用レコードの追加
@@ -190,6 +217,11 @@ class ManageControllerTest {
 	@Test
 	void 遅延情報一覧表示画面に遷移できるかどうか() throws Exception {
 
+		//DBに登録されている情報を取得
+		List<Weather> dbWeathers = weatherRepository.findAll();
+		List<Delay> dbDelays = delayRepository.findAll();
+		List<Railway> dbRailways = railwayRepository.findAll();
+
 		MvcResult result = mockMvc.perform(post("/delays"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("delay"))
@@ -199,19 +231,19 @@ class ManageControllerTest {
 		List<Delay> delays = (List<Delay>) result.getModelAndView().getModel().get("delays");
 
 		//delaysをテスト
-		assertEquals(delays.size(), 45);
+		assertEquals(delays.size(), dbDelays.size());
 
 		// mvに追加されたrailwaysの値を取得
 		List<Railway> railways = (List<Railway>) result.getModelAndView().getModel().get("railways");
 
 		//railwaysをテスト
-		assertEquals(railways.size(), 15);
+		assertEquals(railways.size(), dbRailways.size());
 
 		// mvに追加されたweathersの値を取得
 		List<Weather> weathers = (List<Weather>) result.getModelAndView().getModel().get("weathers");
 
 		//weathersをテスト
-		assertEquals(weathers.size(), 3);
+		assertEquals(weathers.size(), dbWeathers.size());
 
 		// mvに追加されたweatherElementsの値を取得
 		List<String> weatherElements = (List<String>) result.getModelAndView().getModel().get("weatherElements");
@@ -365,6 +397,203 @@ class ManageControllerTest {
 
 		//メッセージをテスト
 		assertEquals(railwayName, null);
+	}
+
+	@Test
+	void 天候の追加削除画面に遷移できるかどうか() throws Exception {
+
+		//DBに登録されている情報を取得
+		List<Weather> dbWeathers = weatherRepository.findAll();
+
+		MvcResult result = mockMvc.perform(post("/weathers"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weathers"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		List<Weather> weathers = (List<Weather>) result.getModelAndView().getModel().get("weathers");
+
+		//weathersが取得できているかをテスト
+		//weathers分繰り返す
+		for (int i = 0; i < weathers.size(); i++) {
+			//weathersからweatherを取得
+			Weather weather = weathers.get(i);
+			//codeを比較
+			assertEquals(weather.getCode(), dbWeathers.get(i).getCode());
+			//elementを比較
+			assertEquals(weather.getElement(), dbWeathers.get(i).getElement());
+			//coefficientを比較
+			assertEquals(weather.getCoefficient(), dbWeathers.get(i).getCoefficient());
+
+		}
+
+	}
+
+	@Test
+	void 天候名から対象のレコードを取得できるかどうか() throws Exception {
+		Weather weather = manageController.findByRecordWeatherName("小雨");
+
+		//codeを比較
+		assertEquals(weather.getCode(), 1);
+		//elementを比較
+		assertEquals(weather.getElement(), "小雨");
+		//coefficientを比較
+		assertEquals(weather.getCoefficient(), 0.10);
+
+	}
+
+	@Test
+	void 存在しない天候名からnullを取得できるかどうか() throws Exception {
+		Weather weather = manageController.findByRecordWeatherName("テスト天候");
+
+		//nullと比較
+		assertEquals(weather, null);
+	}
+
+	@Test
+	void 管理者画面に遷移できるかどうか() throws Exception {
+		mockMvc.perform(post("/manage"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("manage"));
+	}
+
+	@Test
+	@Transactional
+	void ユーザの削除処理が実行できるかどうか() throws Exception {
+
+		//テスト用に追加用レコードを作成
+		User testUser = new User(
+				"test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 1, 2, 3, 10);
+
+		//テスト用レコードの追加
+		testUser = userRepository.saveAndFlush(testUser);
+
+		//テスト用を追加したコードを取得
+		int size = testUser.getCode();
+
+		//実行前にuserが存在することを確認
+		Optional<User> user = userRepository.findById(size);
+		assertTrue(!user.isEmpty());
+
+		//処理実行
+		mockMvc.perform(post("/users/" + size + "/delete"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("users"));
+
+		//実行後にuserが存在しないことを確認
+		user = userRepository.findById(size);
+		assertFalse(!user.isEmpty());
+
+	}
+
+	@Test
+	@Transactional
+	void 天候の削除処理が実行できるかどうか() throws Exception {
+
+		//テスト用に追加用レコードを作成
+		Weather testWeather = new Weather("テスト天候", 0.2);
+
+		//テスト用レコードの追加
+		testWeather = weatherRepository.saveAndFlush(testWeather);
+
+		//テスト用を追加したコードを取得
+		int size = testWeather.getCode();
+
+		//実行前にweatherが存在することを確認
+		Optional<Weather> weather = weatherRepository.findById(size);
+		assertTrue(!weather.isEmpty());
+
+		//処理実行
+		mockMvc.perform(post("/weathers/" + size + "/delete"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weathers"));
+
+		//実行後にuserが存在しないことを確認
+		weather = weatherRepository.findById(size);
+		assertFalse(!weather.isEmpty());
+
+	}
+
+	@Test
+	@Transactional
+	void 天候の追加処理が実行できるかどうか() throws Exception {
+
+		mockMvc.perform(post("/weathers/add")
+				.param("element", "テスト天候")
+				.param("coefficient", "0.5"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weathers"));
+
+		//テスト用に追加用レコードを作成
+		Weather testWeather = new Weather("テスト天候2", 0.2);
+
+		//テスト用レコードの追加
+		testWeather = weatherRepository.saveAndFlush(testWeather);
+
+		//テスト用を追加したコードから1を引いた数値を取得
+		int size = testWeather.getCode() - 1;
+
+		//mockで追加したレコードを取得
+		Optional<Weather> record = weatherRepository.findById(size);
+		Weather weather = record.get();
+
+		//追加されたものと比較
+		assertEquals(weather.getElement(), "テスト天候");
+		assertEquals(weather.getCoefficient(), 0.50);
+	}
+
+	@Test
+	@Transactional
+	void 天候の追加処理で天候の重複を判定できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/weathers/add")
+				.param("element", "小雨")
+				.param("coefficient", "0.5"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weathers"))
+				.andReturn();
+
+		// mvに追加されたmessageの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "小雨は既に登録されています。");
+	}
+
+	@Test
+	@Transactional
+	void 天候の追加処理で天候の未記入を判定できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/weathers/add")
+				.param("element", "")
+				.param("coefficient", "0.5"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weathers"))
+				.andReturn();
+
+		// mvに追加されたmessageの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "入力してください");
+	}
+
+	@Test
+	@Transactional
+	void 天候の追加処理で遅延係数の未記入を判定できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/weathers/add")
+				.param("element", "テスト天候")
+				.param("coefficient", ""))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weathers"))
+				.andReturn();
+
+		// mvに追加されたmessageの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "入力してください");
 	}
 
 }
