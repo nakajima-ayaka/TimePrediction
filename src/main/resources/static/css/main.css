@@ -1,19 +1,26 @@
 @charset "utf-8";
 
-h1,form,h2,.logout{
-    /*文字を中央寄せ*/
-    text-align: center;
-}
-
-.infodiv{
-	/*要素を中央寄せ*/
-    float: center;
+h1, form, h2, .logout {
+	/*文字を中央寄せ*/
+	text-align: center;
+	/* 	要素の幅を設定 */
+	width: 750px;
 	/* 	margin領域を設定 */
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto
+
+}
+.infodiv {
+	/*要素を中央寄せ*/
+	float: center;
+	/* 	margin領域を設定 */
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
 	/* 	padding領域を設定 */
-    padding-left: 400px;
+	padding-left: 400px;
 	/* 	要素の最大幅を設定 */
-    max-width: 720px;
+	max-width: 720px;
+	/* 	要素の幅を設定 */
+	width: 750px;
 }
