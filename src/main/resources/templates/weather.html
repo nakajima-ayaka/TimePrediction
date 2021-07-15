@@ -57,17 +57,20 @@
 	<br>
 	<br>
 	<br>
-	<div th:if="${session.user.email eq 'admin@xxx.com'}">
-		<form action="/manage" method="post">
-			<input type="submit" value="管理用ページ" class="buttoninfo"><br>
-			<br>
+
+	<div class="underbutton">
+		<div th:if="${session.user.email eq 'admin@xxx.com'}">
+			<form action="/manage" method="post">
+				<input type="submit" value="管理用ページ" class="buttoninfo"><br>
+				<br>
+			</form>
+		</div>
+
+		<form action="/" method="get">
+			<input type="submit" value="ログアウト" class="buttoninfo"><br>
+			<br> <br> <br>
 		</form>
 	</div>
-
-	<form action="/" method="get">
-		<input type="submit" value="ログアウト" class="buttoninfo"><br>
-		<br> <br> <br>
-	</form>
 
 	<footer>
 		<p>Copyright © 2021 yoshino.nakajima</p>

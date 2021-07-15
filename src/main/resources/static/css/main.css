@@ -69,7 +69,7 @@ footer {
 
 .buttoninfo {
 	/* 	文字を中央寄せ */
-	text-align:center;
+/* 	text-align:center; */
 	/* 	ボタン幅を広げる */
 	width: 200px;
 	/* 	margin領域を設定 */
@@ -140,4 +140,8 @@ footer {
 	border: 1px solid;
 	/* 枠線を丸くする */
 	border-radius: 10px;
+}
+
+.underbutton{
+text-align: center;
 }
