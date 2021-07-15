@@ -122,7 +122,7 @@ class CalcControllerTest {
 		String resultMessage = (String) result.getModelAndView().getModel().get("result");
 
 		//resultMessageを比較
-		assertEquals(resultMessage, "07:20に家を出ると間に合います！");
+		assertEquals(resultMessage, "07:23に家を出ることをおススメします！");
 
 	}
 
@@ -203,7 +203,7 @@ class CalcControllerTest {
 		String result = calcController.Result(time, max, delayWalkTime);
 
 		//result変数の内容が一致するか
-		assertEquals(result, "07:16に家を出ると間に合います！");
+		assertEquals(result, "07:16に家を出ることをおススメします！");
 
 	}
 }

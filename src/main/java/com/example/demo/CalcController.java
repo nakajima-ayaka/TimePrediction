@@ -146,7 +146,7 @@ public class CalcController {
 		//時刻の減算処理
 		goingTime = goingTime.minusMinutes(delayTotal);
 
-		result = goingTime + "に家を出ると間に合います！";
+		result = goingTime + "に家を出ることをおススメします！";
 
 		return result;
 	}
