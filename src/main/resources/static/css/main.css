@@ -12,15 +12,21 @@ h1, form, h2, .logout {
 }
 .infodiv {
 	/*要素を中央寄せ*/
-	float: center;
+/* 	float: center; */
+/* text-align:center; */
 	/* 	margin領域を設定 */
 	margin-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	/* 	padding領域を設定 */
-	padding-left: 400px;
+/* 	padding-left: 400px; */
 	/* 	要素の最大幅を設定 */
 	max-width: 720px;
 	/* 	要素の幅を設定 */
 	width: 750px;
 }
+
+ ul{
+	/* 	padding領域を設定 */
+    padding-left: 250px;
+  }
