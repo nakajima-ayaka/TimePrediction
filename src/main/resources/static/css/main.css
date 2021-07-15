@@ -1,32 +1,143 @@
 @charset "utf-8";
 
-h1, form, h2, .logout {
+body {
+	/* 	背景色を薄いグレーに */
+	background-color: #e6e6fa;
+}
+
+.logodiv {
+	/*ロゴを中央寄せ*/
+	text-align: center;
+}
+
+p {
 	/*文字を中央寄せ*/
 	text-align: center;
-	/* 	要素の幅を設定 */
-	width: 750px;
 	/* 	margin領域を設定 */
 	margin-left: auto;
 	margin-right: auto
-
 }
+
+.weatherinfo, h1 {
+	/*文字を中央寄せ*/
+	text-align: center;
+	/* 	要素の幅を設定 */
+	width: 450px;
+	/* 	margin領域を設定 */
+	/* 	margin-left: auto; */
+	/* 	margin-right: auto */
+}
+
 .infodiv {
 	/*要素を中央寄せ*/
-/* 	float: center; */
-/* text-align:center; */
+	/* 	float: center; */
+	/* text-align:center; */
 	/* 	margin領域を設定 */
 	margin-top: 20px;
-	margin-left: auto;
+	/* 	margin-left: auto; */
 	margin-right: auto;
 	/* 	padding領域を設定 */
-/* 	padding-left: 400px; */
+	/* 	padding-left: 400px; */
 	/* 	要素の最大幅を設定 */
 	max-width: 720px;
 	/* 	要素の幅を設定 */
 	width: 750px;
 }
 
- ul{
+ul {
 	/* 	padding領域を設定 */
-    padding-left: 250px;
-  }
+	padding-left: 60px;
+}
+
+.logo {
+	/* 	サイズ指定 */
+	width: 230px;
+	height: 90px;
+}
+
+footer {
+	/* 文字の色を濃いグレーに */
+	color: #778899;
+	/* 背景色を少し濃いグレーに */
+	background-color: #b0c4de;
+	/* 余白の調整 */
+	padding: 50px 0;
+	/* 背景色の領域を100%に */
+	width: 100%;
+	height: 100%;
+}
+
+.buttoninfo {
+	/* 	文字を中央寄せ */
+	text-align:center;
+	/* 	ボタン幅を広げる */
+	width: 200px;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+}
+
+.info_box {
+	/* FlexBox定義 */
+	display: flex;
+	/*文字を中央寄せ*/
+	/* 	text-align: center; */
+}
+
+.weatherinfo_box {
+	/* 	幅を中の要素で可変にする */
+	/* 	display: inline-block; */
+	/* 	divを相対位置の基準にする */
+	position: relative;
+	margin-left: auto;
+}
+
+.weatherinfo:after {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	背景表示用 */
+	content: '';
+	/* 	背景色の範囲を調整 */
+	top: 70px;
+	bottom: -40px;
+	left: 30px;
+	width: 400px;
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+	/* 	レイヤの優先順位を-1に */
+	z-index: -1;
+	/* 	枠線を引く */
+	border: 1px solid;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.userinfo_box {
+	/* 	幅を中の要素で可変にする */
+	/* 	display: inline-block; */
+
+}
+
+.infodiv {
+	/* 	divを相対位置の基準にする */
+	position: relative;
+}
+
+.infoui:after {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	背景表示用 */
+	content: '';
+	/* 	背景色の範囲を調整 */
+	top: -20px;
+	bottom: -65px;
+	left: 0px;
+	width: 430px;
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+	/* 	レイヤの優先順位を-1に */
+	z-index: -1;
+	/* 	枠線を引く */
+	border: 1px solid;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}

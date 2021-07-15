@@ -7,55 +7,70 @@
 </head>
 <body>
 
-	<h1>天候選択</h1>
-
-	<form action="/weather/result" method="post">
-
-	<p th:text="${result}" class="message"></p>
-	<p th:text="${message}" class="message"></p>
-
-	    <span class="label">天候選択</span>
-
-	    <select name="weatherCode" class="input">
-	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}" >
-			</option>
-        </select>
-
-		<input type="submit" value="実行" class="searchbutton">
-	</form>
-
-	<br><br>
-	<hr>
-	<h2>【登録情報】</h2>
-
-	<div class="infodiv">
-
-		<ul class="infoui">
-			<li>ふだん家を出る時間：<span th:text="${session.user.leaveHomeTime}"></span></li>
-			<li>自宅から最寄り駅までの所要時間：<span th:text="${session.user.homeStationTime+'分'}"></span></li>
-			<li>通勤経路：
-			<span th:text="${session.railwayName1}"></span>
-			<span th:if="${!session.railwayName2.equals('未登録')}" th:text="${'～ '+ session.railwayName2}"></span>
-			<span th:if="${!session.railwayName3.equals('未登録')}" th:text="${'～ '+ session.railwayName3}"></span>
-			</li>
-			<li>駅から会社までの所要時間：<span th:text="${session.user.stationCompanyTime+'分'}"></span></li>
-		</ul>
+	<div class="logodiv">
+		<img src="/img/logo.png" class="logo">
 	</div>
 
-	<br>
+	<p>天候に合わせた徒歩時間と路線の遅延を算出し、外出目安時間をお知らせします。</p>
 
+	<div class="info_box">
+		<div class="weatherinfo_box">
+			<h1>天候選択</h1>
+			<form action="/weather/result" method="post" class="weatherinfo">
+				<span class="label">天候選択</span> <select name="weatherCode"
+					class="input">
+					<option th:each="weather:${weathers}" th:value="${weather.code}"
+						th:text="${weather.element}"></option>
+				</select> <input type="submit" value="実行" class="searchbutton">
+
+				<div th:if="${message ne null}">
+					<p th:text="${result}" class="message"></p>
+					<p th:text="${message}" class="message"></p>
+					<span th:if="${!message.contains('路線')}">は遅延しやすいので注意！</span>
+				</div>
+
+			</form>
+		</div>
+
+		<div class="userinfo_box">
+			<h1>登録情報</h1>
+
+			<div class="infodiv">
+
+				<ul class="infoui">
+					<li>ふだん家を出る時間：<span th:text="${session.user.leaveHomeTime}"></span></li>
+					<li>自宅から最寄り駅までの所要時間：<span
+						th:text="${session.user.homeStationTime+'分'}"></span></li>
+					<li>通勤経路： <span th:text="${session.railwayName1}"></span> <span
+						th:if="${!session.railwayName2.equals('未登録')}"
+						th:text="${'～ '+ session.railwayName2}"></span> <span
+						th:if="${!session.railwayName3.equals('未登録')}"
+						th:text="${'～ '+ session.railwayName3}"></span>
+					</li>
+					<li>駅から会社までの所要時間：<span
+						th:text="${session.user.stationCompanyTime+'分'}"></span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
 	<div th:if="${session.user.email eq 'admin@xxx.com'}">
-	<form action="/manage" method="post">
-		<input type="submit" value="管理用ページ" class="manageinfo"><br><br>
+		<form action="/manage" method="post">
+			<input type="submit" value="管理用ページ" class="buttoninfo"><br>
+			<br>
+		</form>
+	</div>
+
+	<form action="/" method="get">
+		<input type="submit" value="ログアウト" class="buttoninfo"><br>
+		<br> <br> <br>
 	</form>
-	</div>
-	<br>
 
-	<div class="logout">
-	  	<a href="/">ログアウト</a>はこちら
-	</div>
-
-
-
+	<footer>
+		<p>Copyright © 2021 yoshino.nakajima</p>
+	</footer>
 </body>
 </html>
