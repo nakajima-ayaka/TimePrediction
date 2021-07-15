@@ -147,7 +147,7 @@ class CalcControllerTest {
 		String message = (String) result.getModelAndView().getModel().get("message");
 
 		//messageを比較
-		assertEquals(message, "管理者へ連絡してください。");
+		assertEquals(message, "天候と路線を管理者へ連絡してください。");
 
 		// mvに追加されたresultの値を取得
 		String resultMessage = (String) result.getModelAndView().getModel().get("result");

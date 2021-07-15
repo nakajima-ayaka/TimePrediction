@@ -84,7 +84,7 @@ public class CalcController {
 		//情報が正しくない旨をメッセージで表示する
 		if (max == 0) {
 			mv.addObject("result", "選択した天候は過去の遅延情報がありません。");
-			mv.addObject("message", "管理者へ連絡してください。");
+			mv.addObject("message", "天候と路線を管理者へ連絡してください。");
 			return weather(mv);
 		}
 
