@@ -15,7 +15,9 @@ p {
 	text-align: center;
 	/* 	margin領域を設定 */
 	margin-left: auto;
-	margin-right: auto
+	margin-right: auto;
+	/* 	セル内で改行しない */
+	white-space: nowrap;
 }
 
 .weatherinfo, h1 {
@@ -69,7 +71,7 @@ footer {
 
 .buttoninfo {
 	/* 	文字を中央寄せ */
-/* 	text-align:center; */
+	/* 	text-align:center; */
 	/* 	ボタン幅を広げる */
 	width: 200px;
 	/* 	margin領域を設定 */
@@ -142,6 +144,6 @@ footer {
 	border-radius: 10px;
 }
 
-.underbutton{
-text-align: center;
+.underbutton {
+	text-align: center;
 }
