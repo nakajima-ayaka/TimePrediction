@@ -6,71 +6,72 @@
 
 <link rel="stylesheet" href="/css/delay.css">
 <link rel="stylesheet" href="/css/managemenu.css">
+<link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
-<script src="/js/delayadd.js"></script>
+	<script src="/js/delayadd.js"></script>
 
 
-<img src="/img/logo.png" class="logo">
+	<img src="/img/logo.png" class="logo">
 
-<span th:replace="managemenu.html"></span>
+	<span th:replace="managemenu.html"></span>
 
 
-<hr>
-<h1>遅延情報管理</h1>
+	<hr>
+	<h1>遅延情報管理</h1>
 
-<div class="contents">
-	<table border="1">
-		<tr>
-			<th>遅延番号</th><th>天候</th><th>鉄道</th><th>遅延時間(分)</th><th>遅延日付</th><th>削除</th>
-		</tr>
-		<tr th:each="delay,status:${delays}">
-			<td th:text="${delay.code}"></td>
-			<td th:text="${weatherElements[status.index]}"></td>
-			<td th:text="${railwayNames[status.index]}"></td>
-			<td th:text="${delay.delayTime}"></td>
-			<td th:text="${delay.date}"></td>
-			<td>
-				<form action="/delays/delete" method="post">
-					<input type="hidden" name="code" th:value="${delay.code}">
-					<input type="submit" value="削除">
-				</form>
-			</td>
-		</tr>
-	</table>
+	<div class="contents">
+		<table border="1">
+			<tr>
+				<th>遅延番号</th>
+				<th>天候</th>
+				<th>鉄道</th>
+				<th>遅延時間(分)</th>
+				<th>遅延日付</th>
+				<th>削除</th>
+			</tr>
+			<tr th:each="delay,status:${delays}">
+				<td th:text="${delay.code}"></td>
+				<td th:text="${weatherElements[status.index]}"></td>
+				<td th:text="${railwayNames[status.index]}"></td>
+				<td th:text="${delay.delayTime}"></td>
+				<td th:text="${delay.date}"></td>
+				<td>
+					<form action="/delays/delete" method="post">
+						<input type="hidden" name="code" th:value="${delay.code}">
+						<input type="submit" value="削除">
+					</form>
+				</td>
+			</tr>
+		</table>
 
-<div class="adddiv">
+		<div class="adddiv">
 
-		<form action="/delays/add" method="post" class="addform">
+			<form action="/delays/add" method="post" class="addform">
 
-		<span class="label">天候：</span>
+				<span class="label">天候：</span> <select name="weatherCode"
+					class="input">
+					<option th:each="weather:${weathers}" th:value="${weather.code}"
+						th:text="${weather.element}"></option>
+				</select><br> <span class="label">鉄道名：</span> <select
+					name="commuterCode" class="railwayinput">
+					<option th:each="railway:${railways}" th:value="${railway.code}"
+						th:text="${railway.name}"></option>
+				</select> <span class="label">遅延時間(分)：</span> <input type="number"
+					name="delayTime" class="minuteinput" min=0 value=0> <span
+					class="label">遅延日付：</span> <input type="date" name="delayDate"
+					id="today" class="dateinput"><br> <input type="submit"
+					value="追加" class="addbutton">
+			</form>
 
-	    <select name="weatherCode" class="input">
-	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}" >
-			</option>
-        </select><br>
+			<p th:text="${message}" class="message"></p>
 
-		<span class="label">鉄道名：</span>
-	    <select name="commuterCode" class="railwayinput">
-   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
-			</option>
-        </select>
+		</div>
 
-		<span class="label">遅延時間(分)：</span>
-		<input type="number" name="delayTime" class="minuteinput"min=0 value=0>
+	</div>
 
-			<span class="label">遅延日付：</span>
-		<input type="date" name="delayDate"  id="today" class="dateinput"><br>
-
-		<input type="submit" value="追加" class="addbutton">
-	</form>
-
-	<p th:text="${message}" class="message"></p>
-
-</div>
-
-</div>
+	<span th:replace="footer.html"></span>
 
 </body>
 </html>

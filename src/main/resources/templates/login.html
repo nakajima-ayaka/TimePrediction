@@ -4,37 +4,39 @@
 <meta charset="UTF-8">
 <title>出社時間おしえる君</title>
 <link rel="stylesheet" href="/css/login.css">
+<link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
-
-<img src="/img/logo.png" class="logo">
+	<img src="/img/logo.png" class="logo">
 	<form action="/login" method="post">
 
 		<div class="loginform">
-	<p th:text="${message}" class="message"></p>
-		    <div>
-		      <span class="label">メールアドレス</span><br>
-		      <input type="email" name="email" class="input"><br>
-		    </div><br>
+			<p th:text="${message}" class="message"></p>
+			<div>
+				<span class="label">メールアドレス</span><br> <input type="email"
+					name="email" class="input"><br>
+			</div>
+			<br>
 
-		    <div>
-		      <span class="label">パスワード</span><br>
-		      <input type="password" name="password" class="input"><br><br>
-		    </div><br>
-
-			<input type="submit" value="ログイン"  class="formbutton">
+			<div>
+				<span class="label">パスワード</span><br> <input type="password"
+					name="password" class="input"><br> <br>
+			</div>
+			<br> <input type="submit" value="ログイン" class="formbutton">
 
 		</div>
-		</form>
-		<br><br>
-		<span class="register">アカウントをお持ちでない方はこちらから</span><br>
+	</form>
+	<br>
+	<br>
+	<span class="register">アカウントをお持ちでない方はこちらから</span>
+	<br>
 
-		<form action="/signup" method="get">
-			<input type="submit" value="新規登録"  class="formbutton">
-		</form>
+	<form action="/signup" method="get">
+		<input type="submit" value="新規登録" class="formbutton">
+	</form>
 
-
+	<span th:replace="footer.html"></span>
 
 </body>
 </html>

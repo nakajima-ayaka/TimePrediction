@@ -4,63 +4,64 @@
 <meta charset="UTF-8">
 <title>新規登録画面</title>
 <link rel="stylesheet" href="/css/signup.css">
+<link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
 
-<img src="/img/logo.png" class="logo">
+	<img src="/img/logo.png" class="logo">
 	<form action="/signup" method="post">
 
 		<div class="signupform">
 
-		<p th:text="${message}" class="message"></p>
+			<p th:text="${message}" class="message"></p>
 
-		<div class="form">
+			<div class="form">
 
-	    <div class="label">
-	      <span class="label">メールアドレス</span><span class="required">(必須)</span><br><br>
-	      <span class="label">パスワード</span><span class="required">(必須)</span><br><br>
-	      <span class="label">ふだん家を出る時間</span><br><br>
-   	      <span class="label">自宅から最寄り駅までの</span><br>
-	      <span class="label">所要時間(分)</span><br><br>
-	      <span class="label">駅から会社までの</span><br>
-	      <span class="label">所要時間(分)</span><br><br>
-	      <span class="label">通勤経路1つ目</span><span class="required">(必須)</span><br><br>
-	      <span class="label">通勤経路2つ目</span><br><br>
-	      <span class="label">通勤経路3つ目</span><br><br>
-	    </div>
+				<div class="label">
+					<span class="label">メールアドレス</span><span class="required">(必須)</span><br>
+					<br> <span class="label">パスワード</span><span class="required">(必須)</span><br>
+					<br> <span class="label">ふだん家を出る時間</span><br> <br> <span
+						class="label">自宅から最寄り駅までの</span><br> <span class="label">所要時間(分)</span><br>
+					<br> <span class="label">駅から会社までの</span><br> <span
+						class="label">所要時間(分)</span><br> <br> <span
+						class="label">通勤経路1つ目</span><span class="required">(必須)</span><br>
+					<br> <span class="label">通勤経路2つ目</span><br> <br> <span
+						class="label">通勤経路3つ目</span><br> <br>
+				</div>
 
-	    <div class="input">
-	      <input type="email" name="email" class="input"><br><br>
-	      <input type="password" name="password" class="input"><br><br>
-	      <input type="time" name="leaveHomeTime" class="timeinput" value="07:30"><br><br>
-	      <input type="number" name="homeStationTime" class="minuteinput" min=0 max=1000 placeholder="0"><br><br><br>
-	      <input type="number" name="stationCompanyTime" class="minuteinput"min=0 max=1000 placeholder="0"><br><br><br>
-	      <select name="commuterCode1" class="input">
-	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" class="railway">
-			</option>
-		  </select><br><br>
-        <select name="commuterCode2" class="input">
-   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" class="railway">
-			</option>
-        </select><br><br>
-        <select name="commuterCode3" class="input">
-   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" class="railway" >
-			</option>
-        </select> <br><br>
+				<div class="input">
+					<input type="email" name="email" class="input"><br> <br>
+					<input type="password" name="password" class="input"><br>
+					<br> <input type="time" name="leaveHomeTime" class="timeinput"
+						value="07:30"><br> <br> <input type="number"
+						name="homeStationTime" class="minuteinput" min=0 max=1000
+						placeholder="0"><br> <br> <br> <input
+						type="number" name="stationCompanyTime" class="minuteinput" min=0
+						max=1000 placeholder="0"><br> <br> <br> <select
+						name="commuterCode1" class="input">
+						<option th:each="railway:${railways}" th:value="${railway.code}"
+							th:text="${railway.name}" class="railway"></option>
+					</select><br> <br> <select name="commuterCode2" class="input">
+						<option th:each="railway:${railways}" th:value="${railway.code}"
+							th:text="${railway.name}" class="railway"></option>
+					</select><br> <br> <select name="commuterCode3" class="input">
+						<option th:each="railway:${railways}" th:value="${railway.code}"
+							th:text="${railway.name}" class="railway"></option>
+					</select> <br> <br>
+
+				</div>
+
+			</div>
+			<div class="submitbutton">
+				<input type="submit" value="新規登録" class="formbutton">
+			</div>
+
 
 		</div>
+	</form>
 
-	</div>
-	<div class="submitbutton">
-		<input type="submit" value="新規登録"  class="formbutton">
-	</div>
-
-
-	</div>
-</form>
-
-
+	<span th:replace="footer.html"></span>
 
 </body>
 </html>

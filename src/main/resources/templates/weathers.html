@@ -6,55 +6,58 @@
 
 <link rel="stylesheet" href="/css/weathers.css">
 <link rel="stylesheet" href="/css/managemenu.css">
+<link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
 
-<img src="/img/logo.png" class="logo">
+	<img src="/img/logo.png" class="logo">
 
-<span th:replace="managemenu.html"></span>
+	<span th:replace="managemenu.html"></span>
 
 
 	<hr>
-		<h1>天候管理</h1>
+	<h1>天候管理</h1>
 
-<div class="contents">
+	<div class="contents">
 		<table border="1">
-		<tr>
-			<th>天候番号</th>
-			<th>天気</th>
-			<th>遅延係数</th>
-			<th>削除</th>
-		</tr>
-		<tr th:each="weather:${weathers}">
-			<td th:text="${weather.code}"></td>
-			<td th:text="${weather.element}"></td>
-			<td th:text="${weather.coefficient}"></td>
-			<td>
-			<form th:action="'/weathers/' + ${weather.code} + '/delete'" method="post">
-				<input type="submit" value="削除">
-				</form>
-			</td>
-		</tr>
-	</table>
+			<tr>
+				<th>天候番号</th>
+				<th>天気</th>
+				<th>遅延係数</th>
+				<th>削除</th>
+			</tr>
+			<tr th:each="weather:${weathers}">
+				<td th:text="${weather.code}"></td>
+				<td th:text="${weather.element}"></td>
+				<td th:text="${weather.coefficient}"></td>
+				<td>
+					<form th:action="'/weathers/' + ${weather.code} + '/delete'"
+						method="post">
+						<input type="submit" value="削除">
+					</form>
+				</td>
+			</tr>
+		</table>
 
 
-<div class="adddiv">
+		<div class="adddiv">
 
-	<p th:text="${message}" class="message"></p>
+			<p th:text="${message}" class="message"></p>
 
-	<form action="/weathers/add" method="post" class="addform">
-		<span class="label">天気：</span>
-		 <input type="text" name="element" class="input"><br>
+			<form action="/weathers/add" method="post" class="addform">
+				<span class="label">天気：</span> <input type="text" name="element"
+					class="input"><br> <span class="label">遅延係数：</span> <input
+					type="number" name="coefficient" class="coefficientinput"
+					step="0.1" value="0.1" min="0" max="2"><br /> <input
+					type="submit" value="追加" class="button">
+			</form>
 
-		<span class="label">遅延係数：</span>
-		 <input type="number" name="coefficient" class="coefficientinput" step="0.1" value="0.1" min="0" max="2" ><br/>
-		 <input type="submit" value="追加" class="button">
-	</form>
+		</div>
 
-</div>
+	</div>
 
-</div>
+	<span th:replace="footer.html"></span>
 
 </body>
 </html>

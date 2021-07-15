@@ -3,6 +3,7 @@
 body {
 	/* 	背景色を薄いグレーに */
 	background-color: #e6e6fa;
+	
 }
 
 .logodiv {
@@ -55,18 +56,6 @@ ul {
 	/* 	サイズ指定 */
 	width: 230px;
 	height: 90px;
-}
-
-footer {
-	/* 文字の色を濃いグレーに */
-	color: #778899;
-	/* 背景色を少し濃いグレーに */
-	background-color: #b0c4de;
-	/* 余白の調整 */
-	padding: 50px 0;
-	/* 背景色の領域を100%に */
-	width: 100%;
-	height: 100%;
 }
 
 .buttoninfo {

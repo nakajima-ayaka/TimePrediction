@@ -6,54 +6,59 @@
 
 <link rel="stylesheet" href="/css/railway.css">
 <link rel="stylesheet" href="/css/managemenu.css">
+<link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
 
-<img src="/img/logo.png" class="logo">
+	<img src="/img/logo.png" class="logo">
 
-<span th:replace="managemenu.html"></span>
+	<span th:replace="managemenu.html"></span>
 
 
 	<hr>
-		<h1>鉄道管理</h1>
+	<h1>鉄道管理</h1>
 
-<div class="contents">
-	<table border="1">
-		<tr>
-			<th>鉄道番号</th><th>鉄道名</th><th>遅延頻度</th><th>削除</th>
-		</tr>
-		<tr th:each="railway,status:${railways}">
-			<td th:text="${railway.code}"></td>
-			<td th:text="${railway.name}"></td>
-			<td th:text="${delayFrequencys[status.index]}"></td>
-			<td>
-				<form action="/railways/delete" method="post">
-					<input type="hidden" name="code" th:value="${railway.code}">
-					<input type="submit" value="削除">
-				</form>
-			</td>
-		</tr>
-	</table>
+	<div class="contents">
+		<table border="1">
+			<tr>
+				<th>鉄道番号</th>
+				<th>鉄道名</th>
+				<th>遅延頻度</th>
+				<th>削除</th>
+			</tr>
+			<tr th:each="railway,status:${railways}">
+				<td th:text="${railway.code}"></td>
+				<td th:text="${railway.name}"></td>
+				<td th:text="${delayFrequencys[status.index]}"></td>
+				<td>
+					<form action="/railways/delete" method="post">
+						<input type="hidden" name="code" th:value="${railway.code}">
+						<input type="submit" value="削除">
+					</form>
+				</td>
+			</tr>
+		</table>
 
-<div class="adddiv">
+		<div class="adddiv">
 
-	<form action="/railways/add" method="post" class="addform">
-		<span class="label">鉄道名：</span>
-		<input type="text" name="railwayName" class="input"><br>
-		<span class="label">遅延しやすさ：</span>
-		<select name="delayFrequency" class="input">
-			<option value="1">低い</option>
-			<option value="2">普通</option>
-			<option value="3">高い</option>
-		</select><br>
-		<input type="submit" value="追加" class="button">
-	</form>
-	<p th:text="${message}" class="message"></p>
+			<form action="/railways/add" method="post" class="addform">
+				<span class="label">鉄道名：</span> <input type="text"
+					name="railwayName" class="input"><br> <span
+					class="label">遅延しやすさ：</span> <select name="delayFrequency"
+					class="input">
+					<option value="1">低い</option>
+					<option value="2">普通</option>
+					<option value="3">高い</option>
+				</select><br> <input type="submit" value="追加" class="button">
+			</form>
+			<p th:text="${message}" class="message"></p>
 
-</div>
+		</div>
 
-</div>
+	</div>
+
+	<span th:replace="footer.html"></span>
 
 </body>
 </html>

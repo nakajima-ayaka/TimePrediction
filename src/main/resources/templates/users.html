@@ -6,52 +6,55 @@
 
 <link rel="stylesheet" href="/css/users.css">
 <link rel="stylesheet" href="/css/managemenu.css">
+<link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
-<div class="body">
-<img src="/img/logo.png" class="logo">
+	<div class="body">
+		<img src="/img/logo.png" class="logo"> <span
+			th:replace="managemenu.html"></span>
 
-<span th:replace="managemenu.html"></span>
 
-
-	<hr>
+		<hr>
 		<h1>ユーザ管理</h1>
-</div>
-
-<div class="contents">
-
-	<table border="1">
-		<tr>
-			<th>会員番号</th>
-			<th>メールアドレス</th>
-			<th>パスワード</th>
-			<th>いつも家を出る時間</th>
-			<th>自宅から最寄り駅までの所要時間</th>
-			<th>通勤経路１</th>
-			<th>通勤経路２</th>
-			<th>通勤経路３</th>
-			<th>駅から会社までの所要時間</th>
-			<th>削除</th>
-		</tr>
-		<tr th:each="user,status:${users}">
-			<td th:text="${user.code}"></td>
-			<td th:text="${user.email}"></td>
-			<td th:text="${user.password}"></td>
-			<td th:text="${user.leaveHomeTime}"></td>
-			<td th:text="${user.homeStationTime+'分'}"></td>
-			<td th:text="${railwayNames1[status.index]}"></td>
-			<td th:text="${railwayNames2[status.index]}"></td>
-			<td th:text="${railwayNames3[status.index]}"></td>
-			<td th:text="${user.stationCompanyTime+'分'}"></td>
-			<td>
-			<form th:action="'/users/' + ${user.code} + '/delete'" method="post">
-				<input type="submit" value="削除">
-				</form>
-			</td>
-		</tr>
-	</table>
 	</div>
+
+	<div class="contents">
+
+		<table border="1">
+			<tr>
+				<th>会員番号</th>
+				<th>メールアドレス</th>
+				<th>パスワード</th>
+				<th>いつも家を出る時間</th>
+				<th>自宅から最寄り駅までの所要時間</th>
+				<th>通勤経路１</th>
+				<th>通勤経路２</th>
+				<th>通勤経路３</th>
+				<th>駅から会社までの所要時間</th>
+				<th>削除</th>
+			</tr>
+			<tr th:each="user,status:${users}">
+				<td th:text="${user.code}"></td>
+				<td th:text="${user.email}"></td>
+				<td th:text="${user.password}"></td>
+				<td th:text="${user.leaveHomeTime}"></td>
+				<td th:text="${user.homeStationTime+'分'}"></td>
+				<td th:text="${railwayNames1[status.index]}"></td>
+				<td th:text="${railwayNames2[status.index]}"></td>
+				<td th:text="${railwayNames3[status.index]}"></td>
+				<td th:text="${user.stationCompanyTime+'分'}"></td>
+				<td>
+					<form th:action="'/users/' + ${user.code} + '/delete'"
+						method="post">
+						<input type="submit" value="削除">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<span th:replace="footer.html"></span>
 
 </body>
 </html>
