@@ -130,7 +130,7 @@ public class CalcController {
 
 		message = String.join("と", railwayName);
 
-		return message + "は遅延しやすいので注意！";
+		return message;
 	}
 
 	//出社時間の計算処理と文章処理

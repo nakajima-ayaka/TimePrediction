@@ -116,7 +116,7 @@ class CalcControllerTest {
 		String message = (String) result.getModelAndView().getModel().get("message");
 
 		//messageを比較
-		assertEquals(message, "小田急線とJR山手線とJR中央線は遅延しやすいので注意！");
+		assertEquals(message, "小田急線とJR山手線とJR中央線");
 
 		// mvに追加されたresultの値を取得
 		String resultMessage = (String) result.getModelAndView().getModel().get("result");
@@ -171,7 +171,7 @@ class CalcControllerTest {
 		String message = calcController.Message(railwayName);
 
 		//message変数の内容が一致するか
-		assertEquals(message, "小田急線とJR埼京線は遅延しやすいので注意！");
+		assertEquals(message, "小田急線とJR埼京線");
 	}
 
 	@Test
