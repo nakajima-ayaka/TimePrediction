@@ -40,3 +40,8 @@ body {
 	/* 	ボタン幅を広げる */
 	width: 200px;
 }
+
+.logo{
+	width: 230px;
+	height:90px;
+}

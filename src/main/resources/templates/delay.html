@@ -2,43 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>遅延情報一覧表示</title>
+<title>遅延情報管理</title>
+
+<link rel="stylesheet" href="/css/delay.css">
+<link rel="stylesheet" href="/css/managemenu.css">
 </head>
 <body>
 
 <script src="/js/delayadd.js"></script>
 
-	<h1>遅延情報一覧表示</h1>
 
-	<p th:text="${message}" class="message"></p>
+<img src="/img/logo.png" class="logo">
 
-	<form action="/delays/add" method="post">
-		天候：
-	    <select name="weatherCode" class="input">
-	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}" >
-			</option>
-        </select>
+<span th:replace="managemenu.html"></span>
 
-		鉄道名：
-	    <select name="commuterCode" class="input">
-   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
-			</option>
-        </select>
 
-		遅延時間(分)：
-		<input type="number" name="delayTime" class="minuteinput"min=0 value=0>
+<hr>
+<h1>遅延情報管理</h1>
 
-		遅延日付：
-		<input type="date" name="delayDate"  id="today" class="dateInput">
-
-		<input type="submit" value="追加">
-	</form>
-
-	<hr>
-
+<div class="contents">
 	<table border="1">
 		<tr>
-			<th>遅延番号</th><th>天候</th><th>鉄道</th><th>遅延時間(分)</th><th>遅延日付</th><th></th>
+			<th>遅延番号</th><th>天候</th><th>鉄道</th><th>遅延時間(分)</th><th>遅延日付</th><th>削除</th>
 		</tr>
 		<tr th:each="delay,status:${delays}">
 			<td th:text="${delay.code}"></td>
@@ -55,16 +40,37 @@
 		</tr>
 	</table>
 
-	<hr>
+<div class="adddiv">
 
-	<br>
+		<form action="/delays/add" method="post" class="addform">
 
-	<div class="logout">
-		<a href="/">ログアウト</a>はこちら
-	</div>
-	<form method="post" name="nanage" action="/manage">
-	    <a href="javascript:nanage.submit()">管理一覧</a>はこちら
+		<span class="label">天候：</span>
+
+	    <select name="weatherCode" class="input">
+	    	<option th:each="weather:${weathers}" th:value="${weather.code}" th:text="${weather.element}" >
+			</option>
+        </select><br>
+
+		<span class="label">鉄道名：</span>
+	    <select name="commuterCode" class="railwayinput">
+   	    	<option th:each="railway:${railways}" th:value="${railway.code}" th:text="${railway.name}" >
+			</option>
+        </select>
+
+		<span class="label">遅延時間(分)：</span>
+		<input type="number" name="delayTime" class="minuteinput"min=0 value=0>
+
+			<span class="label">遅延日付：</span>
+		<input type="date" name="delayDate"  id="today" class="dateinput"><br>
+
+		<input type="submit" value="追加" class="addbutton">
 	</form>
+
+	<p th:text="${message}" class="message"></p>
+
+</div>
+
+</div>
 
 </body>
 </html>

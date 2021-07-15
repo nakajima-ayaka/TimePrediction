@@ -8,7 +8,7 @@ body {
 	/* 	margin領域を設定 */
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 80px;
+	margin-top: 40px;
 	/* 	背景色を薄いグレーに */
 	background-color: #e6e6fa;
 }
@@ -90,7 +90,6 @@ form {
 }
 
 .logo{
-
 	width: 230px;
 	height:90px;
 }

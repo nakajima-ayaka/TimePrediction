@@ -153,7 +153,7 @@ class CalcControllerTest {
 		String resultMessage = (String) result.getModelAndView().getModel().get("result");
 
 		//resultMessageを比較
-		assertEquals(resultMessage, "選択した天候は過去の遅延時間が登録されていない為、正しい時間が表示できません。");
+		assertEquals(resultMessage, "選択した天候は過去の遅延情報がありません。");
 
 	}
 

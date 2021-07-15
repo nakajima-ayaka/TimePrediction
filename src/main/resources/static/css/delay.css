@@ -20,6 +20,8 @@ body {
 .contents {
 	/* 	コンテンツを横並びに表示 */
 	display: flex;
+	/* 	margin領域を設定 */
+/* 	margin-left: 100px; */
 }
 
 .addform {
@@ -33,12 +35,12 @@ body {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	背景表示用 */
-	content: '';
+	 content : '' ;
 	/* 	背景色の範囲を調整 */
 	top: -20px;
 	bottom: -50px;
 	left: 30px;
-	width: 310px;
+	width: 400px;
 	/* 	背景色を白寄りのグレーに */
 	background-color: #f8f8ff;
 	/* 	レイヤの優先順位を-1に */
@@ -53,7 +55,7 @@ body {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	表示位置を調整 */
-	top: 1%;
+	top: 4%;
 }
 
 .label {
@@ -89,32 +91,61 @@ select.input {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	表示位置を調整 */
-	top: 2em;
+	top: 0em;
 	left: 100%;
-	width: 50px;
-}
-
-.button {
-	/* adddivから相対位置で配置 */
-	position: absolute;
-	/* 	表示位置を調整 */
-	top: 4em;
-	left: 70%;
 	width: 100px;
 }
 
-.message {
-	/* 	文字色を赤に */
-	color: red;
+select.railwayinput {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 2em;
+	left: 100%;
+	width: auto;
+}
+
+.minuteinput {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 3.7em;
+	left: 100%;
+	width: 100px;
+}
+
+
+.dateinput {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 5.6em;
+	left: 100%;
+	width: 150px;
+}
+
+.addbutton {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	表示位置を調整 */
 	top: 8em;
-	left: 200%;
-	width: 380px;
+	left: 70%;
+	width: 100px;
 }
 
-.logo {
+
+.message{
+/* 	文字色を赤に */
+	color:red;
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 11em;
+	left: 220%;
+	width: 400px;
+}
+
+.logo{
 	width: 230px;
-	height: 90px;
+	height:90px;
 }

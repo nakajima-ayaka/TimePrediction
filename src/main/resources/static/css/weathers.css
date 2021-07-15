@@ -33,11 +33,11 @@ body {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	背景表示用 */
-	content: '';
+	 content : '' ;
 	/* 	背景色の範囲を調整 */
 	top: -20px;
-	bottom: -50px;
-	left: 30px;
+	bottom: -60px;
+	left: 50px;
 	width: 310px;
 	/* 	背景色を白寄りのグレーに */
 	background-color: #f8f8ff;
@@ -85,7 +85,7 @@ table {
 	background-color: #f8f8ff;
 }
 
-select.input {
+.coefficientinput {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	表示位置を調整 */
@@ -98,23 +98,24 @@ select.input {
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	表示位置を調整 */
-	top: 4em;
-	left: 70%;
+	top: 4.5em;
+	left: 75%;
 	width: 100px;
 }
 
-.message {
-	/* 	文字色を赤に */
-	color: red;
+.message{
+/* 	文字色を赤に */
+	color:red;
 	/* adddivから相対位置で配置 */
 	position: absolute;
 	/* 	表示位置を調整 */
 	top: 8em;
 	left: 200%;
-	width: 380px;
+	width: 400px;
 }
 
-.logo {
+
+.logo{
 	width: 230px;
-	height: 90px;
+	height:90px;
 }

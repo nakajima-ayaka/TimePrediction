@@ -1,0 +1,134 @@
+@charset "utf-8";
+
+body {
+	/*文字を中央寄せ*/
+	text-align: center;
+	/* 	要素の幅を設定 */
+	width: 700px;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	/* 	背景色を薄いグレーに */
+	background-color: #e6e6fa;
+}
+
+form {
+	/* 	要素の最大幅を設定 */
+	max-width: 720px;
+}
+
+.label {
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: 10px;
+}
+
+.input {
+	/*要素の幅を設定 */
+	width: 230px;
+	/*要素を左寄せ*/
+	float: lett;
+	/*文字を左寄せ*/
+	text-align: left;
+	margin-left: 0px;
+	margin-right: auto;
+	padding: 0px;
+}
+
+input, select.input {
+	/*枠線を引く */
+	border: 2px solid gray;
+
+}
+
+.message, .required {
+	/*メッセージ表示を赤字に*/
+	color: red;
+	text-align: center;
+}
+
+.form {
+	/*コンテンツを横並びに表示 */
+	display: flex;
+}
+
+.signupform {
+/* 	文字を右揃えに */
+	text-align: right;
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+	/* 	余白の調整 */
+	padding-top: 40px;
+	padding-bottom: 30px;
+	/* 	枠線を引く */
+	border: 2px solid gray;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.formbutton {
+/* 	カーソルの変更 */
+	cursor: pointer;
+	float: none;
+	clear: both;
+	/* 	要素の幅を設定 */
+	width: 200px;
+	/* 	要素の高さを設定 */
+	height: 40px;
+	/* 	背景色を水色に */
+	background-color: #6495ed;
+	/* 	枠線を消す */
+	border: 0px;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.logo {
+/* 	ロゴのサイズを指定 */
+	width: 230px;
+	height: 90px;
+}
+
+.timeinput, .minuteinput {
+	/*要素の幅を設定 */
+	width: 100px;
+	/*要素の高さを設定 */
+	height: 20px;
+	/*要素を左寄せ*/
+	float: lett;
+	/*文字を左寄せ*/
+	text-align: left;
+}
+
+.minuteinput {
+	/*要素の幅を設定 */
+	width: 100px;
+	/*要素の高さを設定 */
+	height: 16px;
+	/*要素を左寄せ*/
+	float: lett;
+	/*文字を左寄せ*/
+	text-align: left;
+}
+
+select.input {
+	/*要素の幅を設定 */
+	width: auto;
+	/*要素の高さを設定 */
+	height: 20px;
+	/*文字を左寄せ*/
+	text-align: left;
+}
+
+/* 数値入力の矢印ボタン(スピンボタン)を削除 */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.submitbutton {
+	text-align: center;
+}
+

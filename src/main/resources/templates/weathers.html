@@ -3,26 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title>天候管理</title>
+
+<link rel="stylesheet" href="/css/weathers.css">
+<link rel="stylesheet" href="/css/managemenu.css">
 </head>
 <body>
 
-<script src="/js/weather.js"></script>
 
-	<h1>天候一覧表示</h1>
+<img src="/img/logo.png" class="logo">
 
-	<p th:text="${message}" class="message"></p>
+<span th:replace="managemenu.html"></span>
 
-	<form action="/weathers/add" method="post">
-		天気：
-		 <input type="text" name="element">
-		遅延係数：
-		 <input type="number" name="coefficient" step="0.1" value="0.1" min="0" max="2" >
-		 <input type="submit" value="追加">
-	</form>
 
 	<hr>
+		<h1>天候管理</h1>
 
-	<table border="1">
+<div class="contents">
+		<table border="1">
 		<tr>
 			<th>天候番号</th>
 			<th>天気</th>
@@ -41,14 +38,23 @@
 		</tr>
 	</table>
 
-	<hr>
 
-	<div class="logout">
-		<a href="/">ログアウト</a>はこちら
-	</div>
-	<form method="post" name="nanage" action="/manage">
-    	<a href="javascript:nanage.submit()">管理一覧</a>はこちら
+<div class="adddiv">
+
+	<p th:text="${message}" class="message"></p>
+
+	<form action="/weathers/add" method="post" class="addform">
+		<span class="label">天気：</span>
+		 <input type="text" name="element" class="input"><br>
+
+		<span class="label">遅延係数：</span>
+		 <input type="number" name="coefficient" class="coefficientinput" step="0.1" value="0.1" min="0" max="2" ><br/>
+		 <input type="submit" value="追加" class="button">
 	</form>
+
+</div>
+
+</div>
 
 </body>
 </html>

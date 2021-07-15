@@ -83,7 +83,7 @@ public class CalcController {
 		//過去の遅延時間が登録されていない場合は
 		//情報が正しくない旨をメッセージで表示する
 		if (max == 0) {
-			mv.addObject("result", "選択した天候は過去の遅延時間が登録されていない為、正しい時間が表示できません。");
+			mv.addObject("result", "選択した天候は過去の遅延情報がありません。");
 			mv.addObject("message", "管理者へ連絡してください。");
 			return weather(mv);
 		}
