@@ -2,34 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>ログイン画面</title>
-<link rel="stylesheet" href="/css/form.css">
+<title>出社時間おしえる君</title>
+<link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 
 
-	<h1>ログイン</h1>
-
-	<p th:text="${message}" class="message"></p>
-
+<img src="/img/logo.png" class="logo">
 	<form action="/login" method="post">
 
-	    <div>
-	      <span class="label">メールアドレス</span>
-	      <input type="email" name="email" class="input"><br>
-	    </div>
+		<div class="loginform">
+	<p th:text="${message}" class="message"></p>
+		    <div>
+		      <span class="label">メールアドレス</span><br>
+		      <input type="email" name="email" class="input"><br>
+		    </div><br>
 
-	    <div>
-	      <span class="label">パスワード</span>
-	      <input type="password" name="password" class="input"><br><br>
-	    </div>
+		    <div>
+		      <span class="label">パスワード</span><br>
+		      <input type="password" name="password" class="input"><br><br>
+		    </div><br>
 
-		<input type="submit" value="ログイン"  class="formbutton">
+			<input type="submit" value="ログイン"  class="formbutton">
 
-		<br>
-		<a href="/signup">新規登録</a>はこちら
+		</div>
+		</form>
+		<br><br>
+		<span class="register">アカウントをお持ちでない方はこちらから</span><br>
 
-	</form>
+		<form action="/signup" method="get">
+			<input type="submit" value="新規登録"  class="formbutton">
+		</form>
+
 
 
 </body>

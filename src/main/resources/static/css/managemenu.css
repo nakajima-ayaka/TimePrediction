@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+.menus {
+	/* 	コンテンツを横並びに表示 */
+	display: flex;
+}
+
+.manageinfo {
+	/* 	margin領域を設定 */
+	margin-left: 50px;
+	width: 100px;
+}

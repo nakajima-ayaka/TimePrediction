@@ -3,27 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <title>鉄道一覧表示</title>
+
+<link rel="stylesheet" href="/css/railway.css">
+<link rel="stylesheet" href="/css/managemenu.css">
 </head>
 <body>
 
+
 	<h1>鉄道一覧表示</h1>
+<span th:replace="managemenu.html"></span>
 
-	<p th:text="${message}" class="message"></p>
-
-	<form action="/railways/add" method="post">
-		鉄道名：
-		<input type="text" name="railwayName">
-		遅延しやすさ：
-		<select name="delayFrequency">
-			<option value="1">低い</option>
-			<option value="2">普通</option>
-			<option value="3">高い</option>
-		</select>
-		<input type="submit" value="追加">
-	</form>
 
 	<hr>
-
+<div class="contents">
 	<table border="1">
 		<tr>
 			<th>鉄道番号</th><th>鉄道名</th><th>遅延頻度</th><th>削除</th>
@@ -41,14 +33,24 @@
 		</tr>
 	</table>
 
-	<hr>
+<div class="adddiv">
 
-	<div class="logout">
-		<a href="/">ログアウト</a>はこちら
-	</div>
-	<form method="post" name="nanage" action="/manage">
-	    <a href="javascript:nanage.submit()">管理一覧</a>はこちら
+	<form action="/railways/add" method="post" class="addform">
+		<span class="label">鉄道名：</span>
+		<input type="text" name="railwayName" class="input"><br>
+		<span class="label">遅延しやすさ：</span>
+		<select name="delayFrequency" class="input">
+			<option value="1">低い</option>
+			<option value="2">普通</option>
+			<option value="3">高い</option>
+		</select><br>
+		<input type="submit" value="追加" class="button">
 	</form>
+	<p th:text="${message}" class="message"></p>
+
+</div>
+
+</div>
 
 </body>
 </html>

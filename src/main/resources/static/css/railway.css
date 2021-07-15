@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+body {
+	/*文字を中央寄せ*/
+	text-align: center;
+	/* 	要素の幅を設定 */
+	width: 1000px;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	/* 	背景色を薄いグレーに */
+	background-color: #e6e6fa;
+}
+
+.adddiv {
+	/* 	divを相対位置の基準にする */
+	position: relative;
+}
+
+.contents {
+	/* 	コンテンツを横並びに表示 */
+	display: flex;
+	/* 	margin領域を設定 */
+	margin-left: 100px;
+}
+
+.addform {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 2em;
+}
+
+.addform:after {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	背景表示用 */
+	 content : '' ;
+	/* 	背景色の範囲を調整 */
+	top: -20px;
+	bottom: -50px;
+	left: 30px;
+	width: 310px;
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+	/* 	レイヤの優先順位を-1に */
+	z-index: -1;
+	/* 	枠線を引く */
+	border: 1px solid;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.input {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 1%;
+}
+
+.label {
+	/*要素を左寄せ*/
+	float: left;
+	/*文字を右寄せ*/
+	text-align: right;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	/* 	要素の幅を設定 */
+	width: 160px;
+	/* 	padding領域を設定 */
+	padding-right: 10px;
+	padding-left: auto;
+}
+
+td {
+	/* 	セル内で改行しない */
+	white-space: nowrap;
+	/* 	padding領域を設定 */
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table {
+	/* 	margin領域を設定 */
+	margin-left: 50px;
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+}
+
+select.input {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 2em;
+	left: 168%;
+	width: 50px;
+}
+
+.button {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 3.7em;
+	left: 168%;
+	width: 50px;
+}
+
+.message{
+/* 	文字色を赤に */
+	color:red;
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 8em;
+	left: 200%;
+	width: 550px;
+}

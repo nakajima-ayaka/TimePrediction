@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+body {
+	/*文字を中央寄せ*/
+	text-align: center;
+	/* 	要素の幅を設定 */
+	width: 710px;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 80px;
+	/* 	背景色を薄いグレーに */
+	background-color: #e6e6fa;
+}
+
+form {
+	/* 	margin領域を設定 */
+/* 	margin-top: 80px; */
+	margin-left: auto;
+	margin-right: auto;
+	/* 	要素の最大幅を設定 */
+	max-width: 720px;
+}
+
+.label {
+	/*要素を左寄せ*/
+	float: left;
+	/*文字を右寄せ*/
+	text-align: right;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	/* 	要素の幅を設定 */
+	/* 	width: 300px; */
+	/* 	padding領域を設定 */
+	padding-right: 10px;
+	padding-left: auto;
+}
+
+.input {
+	/*要素を左寄せ*/
+	float: left;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	/* 	要素の幅を設定 */
+	width: 300px;
+	/* 	要素の高さを設定 */
+	height: 20px;
+
+	/* 	枠線を引く */
+	border: 2px solid gray;
+}
+
+.message {
+	/*メッセージ表示を赤字に*/
+	color: red;
+}
+
+.loginform {
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+	/* 	幅を中の要素で可変にする */
+	display: inline-block;
+	/* 	余白の調整 */
+	padding-top: 40px;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-bottom: 20px;
+	/* 	枠線を引く */
+	border: 2px solid gray;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.formbutton {
+	cursor: pointer;
+	float: none;
+	clear: both;
+	padding-top: 0px;
+	/* 	要素の幅を設定 */
+	width: 200px;
+	/* 	要素の高さを設定 */
+	height: 40px;
+	/* 	背景色を水色に */
+	background-color: #6495ed;
+	/* 	枠線を消す */
+	border: 0px;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.logo{
+
+	width: 230px;
+	height:90px;
+}

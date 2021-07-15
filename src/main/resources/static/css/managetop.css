@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+body {
+	/*文字を中央寄せ */
+	text-align: center;
+	/* 	要素の幅を設定 */
+	width: 710px;
+	/* 	margin領域を設定 */
+	margin-left: auto;
+	margin-right: auto;
+	/* 	背景色を薄いグレーに */
+	background-color: #e6e6fa;
+
+}
+
+.menus {
+	/* 	コンテンツを横並びに表示 */
+	display: flex;
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+}
+
+.manage {
+	/* 	背景色を白寄りのグレーに */
+	background-color: #f8f8ff;
+	/* 	幅を中の要素で可変にする */
+	display: inline-block;
+	/* 	余白の調整 */
+	padding-top: 40px;
+	padding-left: 80px;
+	padding-right: 80px;
+	padding-bottom: 40px;
+	/* 	枠線を引く */
+	border: 1px solid;
+	/* 枠線を丸くする */
+	border-radius: 10px;
+}
+
+.manageinfo {
+	/* 	ボタン幅を広げる */
+	width: 200px;
+}
