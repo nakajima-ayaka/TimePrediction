@@ -84,11 +84,6 @@ input, select.input {
 	border-radius: 10px;
 }
 
-.logo {
-/* 	ロゴのサイズを指定 */
-	width: 230px;
-	height: 90px;
-}
 
 .timeinput, .minuteinput {
 	/*要素の幅を設定 */

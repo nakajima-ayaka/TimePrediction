@@ -24,11 +24,6 @@ table {
 	text-align: center;
 }
 
-.logo {
-	width: 230px;
-	height: 90px;
-}
-
 td, th {
 	/* 	セル内で改行しない */
 	white-space: nowrap;

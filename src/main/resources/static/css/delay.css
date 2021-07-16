@@ -3,7 +3,7 @@
 body {
 	/*文字を中央寄せ*/
 	text-align: center;
-	/* 	要素の幅を設定 */
+	/* 	要素の幅を設定  */
 	width: 1000px;
 	/* 	margin領域を設定 */
 	margin-left: auto;
@@ -21,7 +21,7 @@ body {
 	/* 	コンテンツを横並びに表示 */
 	display: flex;
 	/* 	margin領域を設定 */
-/* 	margin-left: 100px; */
+	margin-left: 20px;
 }
 
 .addform {
@@ -143,9 +143,4 @@ select.railwayinput {
 	top: 11em;
 	left: 220%;
 	width: 400px;
-}
-
-.logo{
-	width: 230px;
-	height:90px;
 }

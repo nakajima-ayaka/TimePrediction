@@ -20,6 +20,7 @@ body {
 .contents {
 	/* 	コンテンツを横並びに表示 */
 	display: flex;
+		margin-left: 200px
 }
 
 .addform {
@@ -83,6 +84,7 @@ td {
 table {
 	/* 	背景色を白寄りのグレーに */
 	background-color: #f8f8ff;
+
 }
 
 .coefficientinput {
@@ -112,10 +114,4 @@ table {
 	top: 8em;
 	left: 200%;
 	width: 400px;
-}
-
-
-.logo{
-	width: 230px;
-	height:90px;
 }
