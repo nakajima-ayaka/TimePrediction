@@ -127,12 +127,34 @@ public class ManageController {
 	public ModelAndView weatherDelete(
 			ModelAndView mv,
 			@PathVariable("code") int code) {
-		//指定したコードの天候情報を削除
+
+		//指定したコードの天候情報を取得
 		Optional<Weather> record = weatherRepository.findById(code);
 
-		if (!record.isEmpty()) {
-			weatherRepository.deleteById(code);
+		//削除対象無しの場合
+		if (record.isEmpty()) {
+			//表示する内容を準備
+			mv.addObject("message", "削除対象がありません。");
+			// 天候情報一覧表示
+			return weather(mv);
 		}
+
+		//該当の天候情報を取得
+		Weather weather = record.get();
+
+		//該当の天候が登録されている天候情報を取得
+		List<Delay> delays = delayRepository.findByWeatherCode(code);
+		//
+		if (delays.size() != 0) {
+			//表示する内容を準備
+			mv.addObject("message", weather.getElement() + "は他のテーブルで使用されています。");
+			// 天候情報一覧表示
+			return weather(mv);
+		}
+
+		//削除処理
+		weatherRepository.deleteById(code);
+
 		return weather(mv); // 天候情報一覧表示
 	}
 
@@ -271,14 +293,37 @@ public class ManageController {
 			ModelAndView mv) {
 
 		//鉄道番号で検索
-		Optional<Railway> railway = railwayRepository.findById(code);
+		Optional<Railway> record = railwayRepository.findById(code);
 
 		//recordの有無の判定
-		if (railway.isEmpty()) {
+		if (record.isEmpty()) {
 
 			//表示のオブジェクト
 			mv.addObject("message", "削除対象の鉄道番号：" + code + "が見つかりません");
 
+			return railway(mv);
+		}
+
+		//該当の鉄道情報を取得
+		Railway railway = record.get();
+
+		//該当の鉄道が登録されている遅延情報を取得
+		List<Delay> delays = delayRepository.findByRailwayCode(code);
+		//
+		if (delays.size() != 0) {
+			//表示する内容を準備
+			mv.addObject("message", railway.getName() + "は他のテーブルで使用されています。");
+			// 天候情報一覧表示
+			return railway(mv);
+		}
+
+		//該当の鉄道が登録されているユーザ情報を取得
+		List<User> users = userRepository.findByCommuterCode1OrCommuterCode2OrCommuterCode3(code, code, code);
+		//
+		if (users.size() != 0) {
+			//表示する内容を準備
+			mv.addObject("message", railway.getName() + "は他のテーブルで使用されています。");
+			// 天候情報一覧表示
 			return railway(mv);
 		}
 

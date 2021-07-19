@@ -215,6 +215,40 @@ class ManageControllerTest {
 	}
 
 	@Test
+	@Transactional
+	void 鉄道の削除処理で遅延情報テーブルで使われている場合にメッセージを表示できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/railways/delete")
+				.param("code", "2"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("railway"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "京王線は他のテーブルで使用されています。");
+	}
+
+	@Test
+	@Transactional
+	void 鉄道の削除処理でユーザテーブルで使われている場合にメッセージを表示できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/railways/delete")
+				.param("code", "1"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("railway"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "未登録は他のテーブルで使用されています。");
+	}
+
+	@Test
 	void 遅延情報一覧表示画面に遷移できるかどうか() throws Exception {
 
 		//DBに登録されている情報を取得
@@ -250,14 +284,12 @@ class ManageControllerTest {
 
 		//weatherElementsを比較
 		assertEquals(weatherElements.get(0), "小雨");
-		assertEquals(weatherElements.get(44), "大雨");
 
 		// mvに追加されたrailwayNamesの値を取得
 		List<String> railwayNames = (List<String>) result.getModelAndView().getModel().get("railwayNames");
 
 		//railwayNamesを比較
-		assertEquals(railwayNames.get(0), "未登録");
-		assertEquals(railwayNames.get(44), "都営地下鉄大江戸線");
+		assertEquals(railwayNames.get(0), "京王線");
 
 	}
 
@@ -511,6 +543,38 @@ class ManageControllerTest {
 		//実行後にuserが存在しないことを確認
 		weather = weatherRepository.findById(size);
 		assertTrue(weather.isEmpty());
+
+	}
+
+	@Test
+	@Transactional
+	void 天候の削除処理で対象がない場合を検知できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/weathers/99/delete"))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "削除対象がありません。");
+
+	}
+
+	@Test
+	@Transactional
+	void 天候の削除処理で遅延情報テーブルで使われている場合にメッセージを表示できるかどうか() throws Exception {
+
+		MvcResult result = mockMvc.perform(post("/weathers/2/delete"))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//メッセージをテスト
+		assertEquals(message, "雨は他のテーブルで使用されています。");
 
 	}
 

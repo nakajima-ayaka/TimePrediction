@@ -122,7 +122,7 @@ class CalcControllerTest {
 		String resultMessage = (String) result.getModelAndView().getModel().get("result");
 
 		//resultMessageを比較
-		assertEquals(resultMessage, "07:23に家を出ることをおススメします！");
+		assertEquals(resultMessage, "07:18に家を出ることをおススメします！");
 
 	}
 

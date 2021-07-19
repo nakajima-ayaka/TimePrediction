@@ -34,10 +34,10 @@ class findByWeatherCodeAndRailwayCode {
 		Date date = delay.getDate();
 
 		assertEquals(delays.size(), 1);
-		assertEquals(code, 4);
+		assertEquals(code, 1);
 		assertEquals(weatherCode, 1);
 		assertEquals(railwayCode, 2);
-		assertEquals(delayTime, 0);
+		assertEquals(delayTime, 5);
 		assertEquals(date, Date.valueOf("2021-07-01"));
 
 	}

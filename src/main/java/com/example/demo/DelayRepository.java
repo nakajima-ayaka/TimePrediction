@@ -10,4 +10,10 @@ public interface DelayRepository extends JpaRepository<Delay, Integer> {
 
 	//天候番号と鉄道番号を指定して、該当の遅延情報Listを取得
 	List<Delay> findByWeatherCodeAndRailwayCode(int weatherCode, int railwayCode);
+
+	//天候番号を指定して、該当の遅延情報を取得
+	List<Delay> findByWeatherCode(int weatherCode);
+
+	//鉄道番号を指定して、該当の遅延情報を取得
+	List<Delay> findByRailwayCode(int railwayCode);
 }
