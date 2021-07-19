@@ -111,6 +111,10 @@ public class CalcController {
 		String result = Result(user.getLeaveHomeTime(), max, delayWalkTime);
 		mv.addObject("result", result);
 
+		//選択記録の保持
+		mv.addObject("weatherCode", weatherCode);
+
+
 		//8./weatherを呼び出す
 		return weather(mv);
 	}
