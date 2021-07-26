@@ -11,4 +11,7 @@ public interface WeatherRepository extends JpaRepository<Weather, Integer> {
 	//天候名で検索
 	Optional<Weather> findByElement(String element);
 
+	//天候番号で検索
+	Optional<Weather> findByCode(int code);
+
 }

@@ -23,7 +23,7 @@
 	<hr>
 	<h1>遅延情報管理</h1>
 
-	<div  class="contents">
+	<div class="contents">
 		<table border="1">
 			<tr>
 				<th>遅延番号</th>
@@ -31,6 +31,7 @@
 				<th>鉄道</th>
 				<th>遅延時間(分)</th>
 				<th>遅延日付</th>
+				<th>更新</th>
 				<th>削除</th>
 			</tr>
 			<tr th:each="delay,status:${delays}">
@@ -39,6 +40,20 @@
 				<td th:text="${railwayNames[status.index]}"></td>
 				<td th:text="${delay.delayTime}"></td>
 				<td th:text="${delay.date}"></td>
+				<td><form th:action="'/delays/' + ${delay.code} + '/update'"
+						method="post">
+						<input type="hidden" name="code" th:value="${delay.code}">
+						<input type="hidden" name="weatherElement"
+							th:value="${weatherElements[status.index]}">
+						<input
+							type="hidden" name="railwayName"
+							th:value="${railwayNames[status.index]}">
+						<input
+							type="hidden" name="delayTime" th:value="${delay.delayTime}">
+						<input type="hidden" name="date" th:value="${delay.date}">
+						<input type="submit" value="更新">
+					</form></td>
+
 				<td>
 					<form action="/delays/delete" method="post">
 						<input type="hidden" name="code" th:value="${delay.code}">
@@ -53,7 +68,7 @@
 			<form action="/delays/add" method="post" class="addform">
 
 				<span class="label">天候：</span> <select name="weatherCode"
-					class="input">
+ 					class="input">
 					<option th:each="weather:${weathers}" th:value="${weather.code}"
 						th:text="${weather.element}"></option>
 				</select><br> <span class="label">鉄道名：</span> <select
@@ -68,6 +83,49 @@
 			</form>
 
 			<p th:text="${message}" class="message"></p>
+
+		</div>
+
+
+		<div class="adddiv_update">
+
+
+			<div th:each="delay,status:${delays}">
+				<form th:action="'/delays/' + ${delay.code} + '/edit'"
+					method="post" class="addform">
+
+					<!-- 				<span>一覧の更新を押すと反映されます</span> -->
+
+					<span class="label">遅延番号：</span>
+						<span th:text="${code}" class="code_input"></span>
+						<input type="hidden" name="code" th:value="${code}"><br>
+
+					<span class="label">天候：</span>
+						<select name="weatherElement" class="weatherCode_input">
+							<option th:each="weather:${weathers}" th:value="${weather.code
+							}"
+								th:text="${weather.element}" th:selected="${weatherElement == weather.element}"></option>
+						</select><br>
+
+					<span class="label">鉄道名：</span>
+						<select name="railwayName" class="railway_input">
+							<option th:each="railway:${railways}" th:value="${railway.code}"
+							th:text="${railway.name}" th:selected="${railwayName == railway.name}"
+							></option>
+						</select>
+
+					<span class="label">遅延時間(分)：</span>
+
+				<input type="number" name="delayTime" class="minute_input" min=0 th:value=${delayTime}><br>
+
+					<span class="label">遅延日付：</span>
+						<input type="date" name="delayDate" id="today" class="date_input" th:value=${delayDate}><br>
+
+					<input type="submit" value="更新" class="button_updeta">
+				</form>
+
+			</div>
+				<p th:text="${result}" class="message_input"></p>
 
 		</div>
 

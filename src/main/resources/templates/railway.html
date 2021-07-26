@@ -15,7 +15,7 @@
 
 	<img src="/img/logo.png" class="logo">
 
-	<span  th:replace="managemenu.html"></span>
+	<span th:replace="managemenu.html"></span>
 
 
 	<hr>
@@ -27,12 +27,23 @@
 				<th>鉄道番号</th>
 				<th>鉄道名</th>
 				<th>遅延頻度</th>
+				<th>更新</th>
 				<th>削除</th>
 			</tr>
 			<tr th:each="railway,status:${railways}">
 				<td th:text="${railway.code}"></td>
 				<td th:text="${railway.name}"></td>
 				<td th:text="${delayFrequencys[status.index]}"></td>
+				<td><form
+						th:action="'/railways/' + ${railway.code} + '/update'"
+						method="post">
+						<input type="hidden" name="code" th:value="${railway.code}">
+						<input type="hidden" name="name" th:value="${railway.name}">
+						<input type="hidden" name="delayFrequencys"
+							th:value="${delayFrequencys[status.index]}"> <input
+							type="submit" value="更新">
+					</form></td>
+
 				<td>
 					<form action="/railways/delete" method="post">
 						<input type="hidden" name="code" th:value="${railway.code}">
@@ -55,6 +66,39 @@
 				</select><br> <input type="submit" value="追加" class="button">
 			</form>
 			<p th:text="${message}" class="message"></p>
+
+		</div>
+
+		<div class="adddiv_update">
+
+			<div th:each="railway,status:${railways}">
+
+				<form th:action="'/railways/' + ${railway.code} + '/edit'"
+					method="post" class="addform">
+
+					<!-- 				<span>一覧の更新を押すと反映されます</span> -->
+
+					<span class="label">鉄道番号：</span>
+						<span th:text="${code}" class="code_input"></span>
+						<input type="hidden" name="code" th:value="${code}"><br>
+
+					<span class="label">鉄道名：</span>
+						<input type="text" name="name" class="railwayName_input"
+						th:value="${name}"><br>
+
+					<span class="label">遅延しやすさ：</span>
+					<select name="delayFrequencys"
+					class="delayFrequency_input">
+					<option value="1" th:selected="${delay==1}">低い</option>
+					<option value="2" th:selected="${delay==2}">普通</option>
+					<option value="3" th:selected="${delay==3}">高い</option>
+					</select>
+					 <br>
+					<input type="submit" value="更新" class="button_updeta">
+				</form>
+				<p th:text="${result}" class="message_updeta"></p>
+
+			</div>
 
 		</div>
 

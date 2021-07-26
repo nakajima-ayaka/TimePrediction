@@ -117,6 +117,12 @@ public class ManageController {
 		// Thymeleafで表示する準備を行う
 		mv.addObject("weathers", weathers);
 
+		//遅延係数が設定されているか確認
+		if (mv.getModel().get("coefficient") == null) {
+			//遅延係数の初期値を設定
+			mv.addObject("coefficient", "0.1");
+		}
+
 		//天候一覧へ遷移の指定
 		mv.setViewName("weathers");
 		return mv;
@@ -199,8 +205,114 @@ public class ManageController {
 	//天候名からレコードを取得
 	public Weather findByRecordWeatherName(String element) {
 
-		//鉄道名での検索結果を取得
+		//天候名での検索結果を取得
 		Optional<Weather> record = weatherRepository.findByElement(element);
+
+		//recordの有無の判定
+		if (!record.isEmpty()) {
+			return record.get();
+		}
+
+		//recordが無い場合はnullを返す
+		return null;
+
+	}
+
+	//天候更新処理
+	@PostMapping("/weathers/{code}/update")
+	public ModelAndView weatherUpdate(
+			@RequestParam(name = "code") int code,
+			@RequestParam(name = "element") String element,
+			@RequestParam(name = "coefficient") double coefficient,
+			ModelAndView mv) {
+
+		//選択コードの内容表示
+		mv.addObject("code", code);
+		mv.addObject("element", element);
+		mv.addObject("coefficient", coefficient);
+
+		return weather(mv);
+	}
+
+	//天候更新処理(入力済み)
+	@PostMapping("/weathers/{code}/edit")
+	public ModelAndView weatherEdit(
+			@RequestParam(name = "code", defaultValue = "0") int code,
+			@RequestParam(name = "element") String element,
+			@RequestParam(name = "coefficient", defaultValue = "3") double coefficient,
+			ModelAndView mv) {
+
+		//未選択チェック
+		if (code == 0) {
+
+			//表示する内容を準備
+			mv.addObject("result", "一覧から選択してください");
+
+			//選択コードの再内容表示
+			mv.addObject("element", element);
+			mv.addObject("coefficient", coefficient);
+
+			return weather(mv);
+
+		}
+
+		//入力チェック
+		if (element.equals("") || coefficient > 2) {
+
+			//表示する内容を準備
+			mv.addObject("result", "入力してください");
+
+			//選択コードの再内容表示
+			mv.addObject("code", code);
+			mv.addObject("element", element);
+			mv.addObject("coefficient", coefficient);
+
+			return weather(mv);
+
+		}
+
+		//天候名の重複検知
+		Weather weatheFindName = findByRecordWeatherName(element);
+		if (weatheFindName == null) {
+			//変更するエンティティのインスタンスを生成
+			Weather weather = new Weather(code, element, coefficient);
+
+			//Weatherエンティティをusersテーブルに登録(更新)
+			weatherRepository.saveAndFlush(weather);
+
+			//引数にこのメソッド結果を格納＆全件検索の呼び出し
+			return weather(mv);
+
+		}
+
+		//天候番号が一致するか確認
+		//		Weather weatheFindCode = findByRecordWeatherCode(code);
+
+		if (weatheFindName.getCode() != code) {
+
+			//表示のオブジェクト
+			mv.addObject("result", "【" + element + "】は既に登録されています。");
+
+			//一覧表示へ遷移を指定
+			return weather(mv);
+		}
+
+		//変更するエンティティのインスタンスを生成
+		Weather weather = new Weather(code, element, coefficient);
+
+		//Weatherエンティティをusersテーブルに登録(更新)
+		weatherRepository.saveAndFlush(weather);
+
+		//引数にこのメソッド結果を格納＆全件検索の呼び出し
+		return weather(mv);
+
+	}
+
+	//天候番号からレコードを取得
+	public Weather findByRecordWeatherCode(int code) {
+
+		//天候名での検索結果を取得
+		Optional<Weather> record = weatherRepository.findByCode(code);
 
 		//recordの有無の判定
 		if (!record.isEmpty()) {
@@ -349,6 +461,97 @@ public class ManageController {
 
 	}
 
+	//鉄道更新処理
+	@PostMapping("/railways/{code}/update")
+	public ModelAndView railwayUpdate(
+			@RequestParam(name = "code") int code,
+			@RequestParam(name = "name") String name,
+			@RequestParam(name = "delayFrequencys") String delayFrequencys,
+			ModelAndView mv) {
+
+		//選択コードの内容表示
+		mv.addObject("code", code);
+		mv.addObject("name", name);
+
+		Optional<Railway> record1 = railwayRepository.findById(code);
+		Railway railway1 = record1.get();
+		Integer delaynum = railway1.getDelayFrequency();
+
+		mv.addObject("delay", delaynum);
+
+		return railway(mv);
+	}
+
+	//鉄道更新処理(入力済み)
+	@PostMapping("/railways/{code}/edit")
+	public ModelAndView railwayEdit(
+			@RequestParam(name = "code", defaultValue = "0") int code,
+			@RequestParam(name = "name") String name,
+			@RequestParam(name = "delayFrequencys") int delayFrequencys,
+			ModelAndView mv) {
+
+		//未選択チェック
+		if (code == 0) {
+
+			//表示する内容を準備
+			mv.addObject("result", "一覧から選択してください");
+
+			//選択コードの再内容表示
+			mv.addObject("name", name);
+			mv.addObject("delayFrequencys", delayFrequencys);
+
+			return railway(mv);
+
+		}
+
+		//入力チェック
+		if (name.equals("")) {
+
+			//表示する内容を準備
+			mv.addObject("result", "入力してください");
+
+			//選択コードの再内容表示
+			mv.addObject("code", code);
+			mv.addObject("name", name);
+			mv.addObject("delayFrequencys", delayFrequencys);
+
+			return railway(mv);
+		}
+
+		//鉄道名の重複検知
+		Railway railwayFindName = findByRecordRailWayName(name);
+		if (railwayFindName == null) {
+			//変更するエンティティのインスタンスを生成
+			Railway railway = new Railway(code, name, delayFrequencys);
+
+			//railwayエンティティをusersテーブルに登録(更新)
+			railwayRepository.saveAndFlush(railway);
+
+			//引数にこのメソッド結果を格納＆全件検索の呼び出し
+			return railway(mv);
+
+		}
+
+		//鉄道番号が一致するか確認
+		if (railwayFindName.getCode() != code) {
+
+			//表示のオブジェクト
+			mv.addObject("result", "【" + name + "】は既に登録されています。");
+
+			//一覧表示へ遷移を指定
+			return railway(mv);
+		}
+
+		//変更するエンティティのインスタンスを生成
+		Railway railway = new Railway(code, name, delayFrequencys);
+
+		//Weatherエンティティをusersテーブルに登録(更新)
+		railwayRepository.saveAndFlush(railway);
+
+		//引数にこのメソッド結果を格納＆全件検索の呼び出し
+		return railway(mv);
+	}
+
 	//遅延情報の画面表示
 	@PostMapping(value = "/delays")
 	public ModelAndView delay(ModelAndView mv) {
@@ -373,6 +576,12 @@ public class ManageController {
 			Optional<Railway> record = railwayRepository.findById(delay.getRailwayCode());
 			Railway railway = record.get();
 			railwayNames.add(railway.getName());
+		}
+
+		//遅延係数が設定されているか確認
+		if (mv.getModel().get("delayTime") == null) {
+			//遅延係数の初期値を設定
+			mv.addObject("delayTime", "0");
 		}
 
 		//遅延リストをmvに設定
@@ -481,6 +690,139 @@ public class ManageController {
 		if (!record.isEmpty()) {
 			railway = record.get();
 			return railway.getName();
+
+		} else {
+
+			//recordが無い場合はnullを返す
+			return null;
+		}
+	}
+
+	//遅延情報更新処理
+	@PostMapping("/delays/{code}/update")
+	public ModelAndView delayUpdate(
+			@RequestParam(name = "code") int code,
+			@RequestParam("weatherElement") String weatherElement,
+			@RequestParam("railwayName") String railwayName,
+			@RequestParam(value = "delayTime") int delayTime,
+			@RequestParam("date") String delayDate,
+			ModelAndView mv) {
+
+		//選択コードの内容表示
+		mv.addObject("code", code);
+		mv.addObject("weatherElement", weatherElement);
+		mv.addObject("railwayName", railwayName);
+		mv.addObject("delayTime", delayTime);
+		mv.addObject("delayDate", delayDate);
+
+		return delay(mv);
+	}
+
+	//遅延情報更新処理(入力済み)
+	@PostMapping("/delays/{code}/edit")
+	public ModelAndView delayEdit(
+			@RequestParam(name = "code", defaultValue = "0") int code,
+			@RequestParam("weatherElement") int weatherElement,
+			@RequestParam("railwayName") int railwayName,
+			@RequestParam(value = "delayTime", defaultValue = "0") int delayTime,
+			@RequestParam("delayDate") String delayDate,
+			ModelAndView mv) {
+
+		//未選択チェック
+		if (code == 0) {
+
+			//表示する内容を準備
+			mv.addObject("result", "一覧から選択してください");
+
+			return delay(mv);
+
+		}
+
+		//遅延時間が0の場合にエラーとする
+		if (delayTime == 0) {
+
+			//表示する内容を準備
+			mv.addObject("result", "遅延時間を入力してください");
+
+			Optional<Delay> record = delayRepository.findById(code);
+			Delay delay = record.get();
+			Integer weatherNum = delay.getWeatherCode();
+			Integer railwayNum = delay.getRailwayCode();
+
+			Optional<Weather> weather = weatherRepository.findById(weatherNum);
+			Optional<Railway> railway = railwayRepository.findById(railwayNum);
+
+			String weatherCodeName = weather.get().getElement();
+			String railwayCodeName = railway.get().getName();
+
+			//選択コードの再内容表示
+			mv.addObject("code", code);
+			mv.addObject("delayTime", delayTime);
+			mv.addObject("delayDate", delayDate);
+
+			mv.addObject("weatherElement", weatherCodeName);
+			mv.addObject("railwayName", railwayCodeName);
+
+			return delay(mv);
+		}
+
+		//日付を変換
+		Date date = Date.valueOf(delayDate);
+
+		//登録情報の検索
+		Delay delayRecord = findByRecordDelay(weatherElement, railwayName, delayTime, date);
+
+		//登録情報の重複検知(遅延番号以外が完全一致の場合はエラーとする)
+		if (delayRecord != null) {
+
+			//表示のオブジェクト
+			mv.addObject("result", "既に登録されています。");
+
+			Optional<Delay> record = delayRepository.findById(code);
+			Delay delay = record.get();
+			Integer weatherNum = delay.getWeatherCode();
+			Integer railwayNum = delay.getRailwayCode();
+
+			Optional<Weather> weather = weatherRepository.findById(weatherNum);
+			Optional<Railway> railway = railwayRepository.findById(railwayNum);
+
+			String weatherCodeName = weather.get().getElement();
+			String railwayCodeName = railway.get().getName();
+
+			//選択コードの再内容表示
+			mv.addObject("code", code);
+			mv.addObject("delayTime", delayTime);
+			mv.addObject("delayDate", delayDate);
+
+			mv.addObject("weatherElement", weatherCodeName);
+			mv.addObject("railwayName", railwayCodeName);
+
+
+			//一覧表示へ遷移を指定
+			return delay(mv);
+		}
+
+		//変更するエンティティのインスタンスを生成
+		Delay delay = new Delay(code, weatherElement, railwayName, delayTime, date);
+
+		//Delayエンティティをusersテーブルに登録(更新)
+		delayRepository.saveAndFlush(delay);
+
+		//引数にこのメソッド結果を格納＆全件検索の呼び出し
+		return delay(mv);
+
+	}
+
+	//遅延情報の検索
+	public Delay findByRecordDelay(int weatherCode, int railwayCode, int delayTime, Date date) {
+
+		//天候番号・鉄道番号・遅延時間・遅延日付での検索結果を取得
+		Optional<Delay> record = delayRepository.findByWeatherCodeAndRailwayCodeAndDelayTimeAndDate(weatherCode,
+				railwayCode, delayTime, date);
+
+		//recordの有無の判定
+		if (!record.isEmpty()) {
+			return record.get();
 
 		} else {
 

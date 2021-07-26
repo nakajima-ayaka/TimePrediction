@@ -115,3 +115,43 @@ table {
 	left: 200%;
 	width: 400px;
 }
+
+.adddiv_update{
+	/* 	divを相対位置の基準にする */
+	position: relative;
+	top:150px;
+
+}
+
+.code_input {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 1%;
+}
+
+.element_input {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 37%;
+}
+
+.coefficient_input {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 4em;
+	left: 100%;
+	width: 50px;
+}
+
+.button_updeta {
+	/* adddivから相対位置で配置 */
+	position: absolute;
+	/* 	表示位置を調整 */
+	top: 6.5em;
+	left: 75%;
+	width: 100px;
+}
+

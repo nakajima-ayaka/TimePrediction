@@ -30,6 +30,13 @@ public class Weather {
 		this.coefficient = coefficient;
 	}
 
+	//コンストラクタ(全部入り)
+	public Weather(int code, String element, double coefficient) {
+		this.code = code;
+		this.element = element;
+		this.coefficient = coefficient;
+	}
+
 	//アクセッサ・メソッド(セッタ＆ゲッタ)
 	public int getCode() {
 		return code;
