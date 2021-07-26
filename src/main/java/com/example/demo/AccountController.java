@@ -36,9 +36,6 @@ public class AccountController {
 	@RequestMapping(value = { "/", "/login", "/logout", "/weather" })
 	public String login() {
 
-		//セッション情報はクリアする
-		session.invalidate();
-
 		//ログインへ遷移
 		return "login";
 	}
@@ -50,11 +47,14 @@ public class AccountController {
 			@RequestParam("password") String password,
 			ModelAndView mv) {
 
+		//emailのオブジェクト
+		mv.addObject("email", email);
+
 		//メールアドレスorパスワードが空の場合にエラーとする
 		if (email == null || email.length() == 0 || password == null || password.length() == 0) {
 
 			//表示のオブジェクト
-			mv.addObject("message", "入力してください");
+			mv.addObject("message", "未入力の項目があります。");
 
 			//ログインへ遷移を指定
 			mv.setViewName("login");
@@ -86,6 +86,9 @@ public class AccountController {
 
 			//天候リストを表示
 			mv.addObject("weathers", weatherRepository.findAll());
+
+			//家を出る時間の初期値を設定
+			mv.addObject("leaveHomeTime", "07:30");
 
 			//天候選択へ遷移を指定
 			mv.setViewName("weather");
@@ -147,6 +150,11 @@ public class AccountController {
 		//railwayリストを表示
 		mv.addObject("railways", railwayRepository.findAll());
 
+		//家を出る時間が設定されているか確認
+		if (mv.getModel().get("leaveHomeTime") == null) {
+			//家を出る時間の初期値を設定
+			mv.addObject("leaveHomeTime", "07:30");
+		}
 		//新規登録へ遷移
 		mv.setViewName("signup");
 
@@ -166,6 +174,15 @@ public class AccountController {
 			@RequestParam(value = "commuterCode3", defaultValue = "1") int commuterCode3,
 			@RequestParam(value = "stationCompanyTime", defaultValue = "0") int stationCompanyTime,
 			ModelAndView mv) {
+
+		//入力情報を保持
+		mv.addObject("email", email);
+		mv.addObject("leaveHomeTime", Time.valueOf(leaveHomeTime + ":00"));
+		mv.addObject("homeStationTime", homeStationTime);
+		mv.addObject("commuterCode1", commuterCode1);
+		mv.addObject("commuterCode2", commuterCode2);
+		mv.addObject("commuterCode3", commuterCode3);
+		mv.addObject("stationCompanyTime", stationCompanyTime);
 
 		//メールアドレス、パスワードがある場合エラーとする
 		//使用路線の1つ目が選択されていない場合もエラーとする
@@ -206,6 +223,95 @@ public class AccountController {
 
 		//ログインへ遷移を指定
 		mv.setViewName("login");
+
+		return mv;
+
+	}
+
+	//登録情報変更
+	@RequestMapping("/user/edit")
+	public ModelAndView userEdit(ModelAndView mv) {
+
+		//railwayリストを表示
+		mv.addObject("railways", railwayRepository.findAll());
+
+		//家を出る時間が設定されているか確認
+		if (mv.getModel().get("leaveHomeTime") == null) {
+			//家を出る時間の初期値を設定
+			mv.addObject("leaveHomeTime", "07:30");
+		}
+		//新規登録へ遷移
+		mv.setViewName("userEdit");
+
+		return mv;
+
+	}
+
+	//登録情報変更(入力済み)
+	@PostMapping("/edited")
+	public ModelAndView userEdit(
+			@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			@RequestParam("leaveHomeTime") String leaveHomeTime,
+			@RequestParam(value = "homeStationTime", defaultValue = "0") int homeStationTime,
+			@RequestParam(value = "commuterCode1", defaultValue = "1") int commuterCode1,
+			@RequestParam(value = "commuterCode2", defaultValue = "1") int commuterCode2,
+			@RequestParam(value = "commuterCode3", defaultValue = "1") int commuterCode3,
+			@RequestParam(value = "stationCompanyTime", defaultValue = "0") int stationCompanyTime,
+			ModelAndView mv) {
+
+		//leaveHomeTimeをsql.timeに変換
+		Time time;
+		if (leaveHomeTime.length() == 5) {
+			time = Time.valueOf(leaveHomeTime + ":00");
+		} else {
+			time = Time.valueOf(leaveHomeTime);
+		}
+
+		//入力情報を保持
+		mv.addObject("email", email);
+		mv.addObject("leaveHomeTime", time);
+		mv.addObject("homeStationTime", homeStationTime);
+		mv.addObject("commuterCode1", commuterCode1);
+		mv.addObject("commuterCode2", commuterCode2);
+		mv.addObject("commuterCode3", commuterCode3);
+		mv.addObject("stationCompanyTime", stationCompanyTime);
+
+		//メールアドレス、パスワードがある場合エラーとする
+		//使用路線の1つ目が選択されていない場合もエラーとする
+		if (email.isEmpty() || email.length() == 0 ||
+				password.isEmpty() || password.length() == 0 ||
+				commuterCode1 == 1
+
+		) {
+
+			//表示のオブジェクト
+			mv.addObject("message", "未記入箇所があります");
+
+			//登録へ遷移を指定
+			return userEdit(mv);
+		}
+
+		//ログインユーザを取得
+		User editUser = (User) session.getAttribute("user");
+		int code = editUser.getCode();
+
+		//パラメータからオブジェクトを生成
+		User user = new User(
+				code, email, password, time, homeStationTime, commuterCode1,
+				commuterCode2, commuterCode3, stationCompanyTime);
+
+		//usersテーブルへの 登録
+		userRepository.saveAndFlush(user);
+
+		//userをセッションへ登録
+		session.setAttribute("user", user);
+
+		//天候リストを表示
+		mv.addObject("weathers", weatherRepository.findAll());
+
+		//ログインへ遷移を指定
+		mv.setViewName("weather");
 
 		return mv;
 
