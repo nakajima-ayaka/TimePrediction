@@ -35,10 +35,6 @@ public class CalcController {
 	//RailwayRepositoryを使えるようにする
 	private RailwayRepository railwayRepository;
 
-	@Autowired
-	//UserRepositoryを使えるようにする
-	private UserRepository userRepository;
-
 	//天候選択画面へ遷移
 	@PostMapping("/weather")
 	public ModelAndView weather(ModelAndView mv) {

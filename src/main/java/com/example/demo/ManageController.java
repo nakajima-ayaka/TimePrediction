@@ -38,8 +38,6 @@ public class ManageController {
 	//DelayRepositoryを使えるようにする
 	private DelayRepository delayRepository;
 
-	private Object object;
-
 	//管理者画面に遷移
 	@PostMapping("/manage")
 	public ModelAndView manage(ModelAndView mv) {
