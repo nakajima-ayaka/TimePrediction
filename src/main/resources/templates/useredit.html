@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>新規登録画面</title>
+<title>登録情報変更画面</title>
 <link rel="stylesheet" href="/css/signup.css">
 <link rel="stylesheet" href="/css/footer.css">
 <link rel="stylesheet" href="/css/logo.css">
@@ -12,7 +12,7 @@
 	<script src="/js/footer.js"></script>
 
 	<img src="/img/logo.png" class="logo">
-	<form  action="/signup" method="post">
+	<form  action="/edited" method="post">
 
 		<div class="signupform">
 
@@ -33,32 +33,32 @@
 				</div>
 
 				<div class="input">
-					<input type="email" name="email" class="input" th:value="${email}"><br> <br>
+					<input type="email" name="email" class="input" th:value="${session.user.email}"><br> <br>
 					<input type="password" name="password" class="input"><br>
 					<br>
-			<input type="time" name="leaveHomeTime" class="timeinput" th:value="${leaveHomeTime}" >
+			<input type="time" name="leaveHomeTime" class="timeinput" th:value="${session.user.leaveHomeTime}" >
 
 					<br> <br> <input type="number"
 						name="homeStationTime" class="minuteinput" min=0 max=1000
-						placeholder="0"  th:value="${homeStationTime}"><br> <br> <br> <input
+						placeholder="0"  th:value="${session.user.homeStationTime}"><br> <br> <br> <input
 						type="number" name="stationCompanyTime" class="minuteinput" min=0
-						max=1000 placeholder="0"  th:value="${stationCompanyTime}"><br> <br> <br>
+						max=1000 placeholder="0"  th:value="${session.user.stationCompanyTime}"><br> <br> <br>
 						<select name="commuterCode1" class="input">
 						<option th:each="railway:${railways}" th:value="${railway.code}"
-							th:text="${railway.name}" class="railway" th:selected="${commuterCode1 == railway.code}"></option>
+							th:text="${railway.name}" class="railway" th:selected="${session.user.commuterCode1 == railway.code}"></option>
 					</select><br> <br> <select name="commuterCode2" class="input">
 						<option th:each="railway:${railways}" th:value="${railway.code}"
-							th:text="${railway.name}" class="railway" th:selected="${commuterCode2 == railway.code}"></option>
+							th:text="${railway.name}" class="railway" th:selected="${session.user.commuterCode2 == railway.code}"></option>
 					</select><br> <br> <select name="commuterCode3" class="input">
 						<option th:each="railway:${railways}" th:value="${railway.code}"
-							th:text="${railway.name}" class="railway"  th:selected="${commuterCode3	 == railway.code}"></option>
+							th:text="${railway.name}" class="railway"  th:selected="${session.user.commuterCode3	 == railway.code}"></option>
 					</select> <br> <br>
 
 				</div>
 
 			</div>
 			<div class="submitbutton">
-				<input type="submit" value="新規登録" class="formbutton">
+				<input type="submit" value="更新" class="formbutton">
 			</div>
 
 

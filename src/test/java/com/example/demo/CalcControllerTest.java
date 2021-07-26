@@ -87,6 +87,8 @@ class CalcControllerTest {
 		MvcResult result = mockMvc.perform(
 				post("/weather/result")
 						.param("weatherCode", "1")
+						.param("leaveHomeTime", "07:30")
+						.param("walkSpeed", "0.7")
 						.sessionAttr("user", user)
 						.sessionAttr("railwayName1", "小田急線")
 						.sessionAttr("railwayName2", "JR山手線")
@@ -122,7 +124,59 @@ class CalcControllerTest {
 		String resultMessage = (String) result.getModelAndView().getModel().get("result");
 
 		//resultMessageを比較
-		assertEquals(resultMessage, "07:18に家を出ることをおススメします！");
+		assertEquals(resultMessage, "07:19に家を出ることをおススメします！");
+
+	}
+
+	@Test
+	void 天候を選択後に結果表示画面へ遷移できるかどうか日付8文字() throws Exception {
+		//DBに登録されている天候を取得
+		List<Weather> dbWeathers = weatherRepository.findAll();
+
+		User user = new User(
+				1, "test@gmail.com", "test", Time.valueOf("07:30:00"), 10, 3, 4, 5, 10);
+
+		MvcResult result = mockMvc.perform(
+				post("/weather/result")
+						.param("weatherCode", "1")
+						.param("leaveHomeTime", "07:30:00")
+						.param("walkSpeed", "0.7")
+						.sessionAttr("user", user)
+						.sessionAttr("railwayName1", "小田急線")
+						.sessionAttr("railwayName2", "JR山手線")
+						.sessionAttr("railwayName3", "JR中央線"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("weather"))
+				.andReturn();
+
+		// mvに追加されたweathersの値を取得
+		List<Weather> weathers = (List<Weather>) result.getModelAndView().getModel().get("weathers");
+
+		//weathersが取得できているかをテスト
+		//weathers分繰り返す
+		for (int i = 0; i < weathers.size(); i++) {
+			//weathersからweatherを取得
+			Weather weather = weathers.get(i);
+			//codeを比較
+			assertEquals(weather.getCode(), dbWeathers.get(i).getCode());
+			//elementを比較
+			assertEquals(weather.getElement(), dbWeathers.get(i).getElement());
+			//coefficientを比較
+			assertEquals(weather.getCoefficient(), dbWeathers.get(i).getCoefficient());
+
+		}
+
+		// mvに追加されたmessageの値を取得
+		String message = (String) result.getModelAndView().getModel().get("message");
+
+		//messageを比較
+		assertEquals(message, "小田急線とJR山手線とJR中央線");
+
+		// mvに追加されたresultの値を取得
+		String resultMessage = (String) result.getModelAndView().getModel().get("result");
+
+		//resultMessageを比較
+		assertEquals(resultMessage, "07:19に家を出ることをおススメします！");
 
 	}
 
@@ -135,6 +189,8 @@ class CalcControllerTest {
 		MvcResult result = mockMvc.perform(
 				post("/weather/result")
 						.param("weatherCode", "4")
+						.param("leaveHomeTime", "07:30")
+						.param("walkSpeed", "0.7")
 						.sessionAttr("user", user)
 						.sessionAttr("railwayName1", "小田急線")
 						.sessionAttr("railwayName2", "JR山手線")

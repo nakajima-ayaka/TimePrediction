@@ -131,3 +131,11 @@ ul {
 .underbutton {
 	text-align: center;
 }
+
+.editButton{
+	/* 	margin領域を設定 */
+	margin-left: 150px;
+	margin-right: auto;
+
+
+	}

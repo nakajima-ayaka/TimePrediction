@@ -9,23 +9,39 @@
 </head>
 <body>
 	<script src="/js/footer.js"></script>
+	<script src="/js/regbutton.js"></script>
 
 	<div class="logodiv">
-		<img  src="/img/logo.png" class="logo">
+		<img src="/img/logo.png" class="logo">
 	</div>
 
-	<p>天候に合わせた徒歩時間と路線の遅延を算出し、外出目安時間をお知らせします。</p>
+	<p>
+		天候に合わせた徒歩時間と路線の遅延を算出し、外出目安時間をお知らせします。<br>
+		※各路線の遅延時間は、過去に実際に発生した天候起因の遅延時間を元に算出しています。
+	</p>
 
 	<div class="info_box">
 		<div class="weatherinfo_box">
 			<h1>天候選択</h1>
 			<form action="/weather/result" method="post" class="weatherinfo">
-				<span class="label">天候選択</span>
-				<select name="weatherCode"
+				<span class="label">天候選択</span> <select name="weatherCode"
 					class="input">
 					<option th:each="weather:${weathers}" th:value="${weather.code}"
-						th:text="${weather.element}" th:selected="${weatherCode == weather.code}"></option>
-				</select> <input type="submit" value="実行" class="searchbutton">
+						th:text="${weather.element}"
+						th:selected="${weatherCode == weather.code}"></option>
+				</select><br> <span class="label">家を出る時間</span> <input type="time"
+					name="leaveHomeTime" id="leaveHomeTime" class="timeinput"
+					th:value="${leaveHomeTime}"> <input type="button"
+					value="登録情報を反映" id="regbutton" th:onclick="exec();"> <br>
+
+			<span class="label">歩く速度</span>
+				<select name="walkSpeed">
+				<option value="0.7" th:selected="${walkSpeed == 0.7}">早い</option>
+				<option value="1.0" th:selected="${walkSpeed == 1.0}">普通</option>
+				<option value="1.3" th:selected="${walkSpeed == 1.3}">遅い</option>
+				</select><br>
+
+				<input type="submit" value="実行" class="searchbutton">
 
 				<div th:if="${message ne null}">
 					<p th:text="${result}" class="message"></p>
@@ -42,7 +58,8 @@
 			<div class="infodiv">
 
 				<ul class="infoui">
-					<li>ふだん家を出る時間：<span th:text="${session.user.leaveHomeTime}"></span></li>
+					<li>ふだん家を出る時間：<span th:text="${session.user.leaveHomeTime}"
+						id="spanleaveHomeTime"></span></li>
 					<li>自宅から最寄り駅までの所要時間：<span
 						th:text="${session.user.homeStationTime+'分'}"></span></li>
 					<li>通勤経路： <span th:text="${session.railwayName1}"></span> <span
@@ -54,6 +71,9 @@
 					<li>駅から会社までの所要時間：<span
 						th:text="${session.user.stationCompanyTime+'分'}"></span></li>
 				</ul>
+				<form action="/user/edit" method="post" class="userEdit">
+				<input type="submit" value="登録情報を修正" class="editButton">
+				</form>
 			</div>
 		</div>
 	</div>

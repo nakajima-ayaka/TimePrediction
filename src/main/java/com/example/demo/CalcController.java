@@ -52,12 +52,21 @@ public class CalcController {
 		return mv;
 	}
 
-	//結果表示画面へ遷移
+	//家を出る時間を実行時に設定して、結果表示画面へ遷移
 	@PostMapping("/weather/result")
-	public ModelAndView weather(
+	public ModelAndView weatherTime(
 			@RequestParam("weatherCode") int weatherCode,
+			@RequestParam("leaveHomeTime") String leaveHomeTime,
+			@RequestParam("walkSpeed") double walkSpeed,
 			ModelAndView mv) {
 
+		//leaveHomeTimeをsql.timeに変換
+		Time time;
+		if (leaveHomeTime.length() == 5) {
+			time = Time.valueOf(leaveHomeTime + ":00");
+		} else {
+			time = Time.valueOf(leaveHomeTime);
+		}
 		//エンティティクラスのインスタンス生成
 		Delay delay = new Delay();
 		Railway railway = new Railway();
@@ -107,13 +116,17 @@ public class CalcController {
 		int delayWalkTime = railway.DelayWalk(user.getHomeStationTime(), user.getStationCompanyTime(),
 				weather.get().getCoefficient());
 
+		//歩く速度を計算
+		delayWalkTime = (int) (delayWalkTime * walkSpeed);
+
 		//7.4,6で取得した変数を、「登録した出社時間から4,6合計値を引いて、目安の出社時間を算出するメソッド」へ引数として渡し、その結果を変数に格納する。
-		String result = Result(user.getLeaveHomeTime(), max, delayWalkTime);
+		String result = Result(time, max, delayWalkTime);
 		mv.addObject("result", result);
 
 		//選択記録の保持
 		mv.addObject("weatherCode", weatherCode);
-
+		mv.addObject("leaveHomeTime", leaveHomeTime);
+		mv.addObject("walkSpeed", walkSpeed);
 
 		//8./weatherを呼び出す
 		return weather(mv);
